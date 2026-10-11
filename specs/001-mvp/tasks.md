@@ -31,12 +31,13 @@
     Malbec" sin distinguir mayúsculas ni acentos (CA-19); tests rojos primero. ✔ 2026-10-11
     (8 tests; además: eñe → n, espacios colapsados, término vacío no coincide)
 
-- [ ] **T4. Validaciones de guardado.** `js/validaciones.js`: `validarFicha`,
+- [x] **T4. Validaciones de guardado.** `js/validaciones.js`: `validarFicha`,
   `sumarComposicion`, `camposObligatorios`; produce los motivos exactos de RF-11.
   RF-3, RF-4, RF-11, RF-14
   - Hecho cuando: guardar sin un obligatorio se rechaza nombrándolo (CA-2); composición
     que suma 100 pasa y 95 o 105 se rechaza informando la suma (CA-13); guardar con
-    obligatorios completos y opcionales vacíos es válido (RF-4).
+    obligatorios completos y opcionales vacíos es válido (RF-4). ✔ 2026-10-11 (13 tests;
+    además: graduación acepta coma o punto decimal y rechaza no-numéricos)
 
 - [ ] **T5. Serialización y saneado.** `js/normalizacion.js` (o `js/serializacion.js`):
   `serializarFila`/`parsearFila` con separador ";", `saneado` anti-fórmula (`=`, `+`,
