@@ -25,10 +25,11 @@
     (la spec no fija el alcance del historial); Dulce y Fortificado quedan sin tono
     definido en la v1 (opcional, RF-4).
 
-- [ ] **T3. Normalización de texto.** `js/normalizacion.js`: `normalizarTexto` (minúsculas
+- [x] **T3. Normalización de texto.** `js/normalizacion.js`: `normalizarTexto` (minúsculas
   + NFD sin marcas diacríticas) y `coincide` (coincidencia parcial). RF-7
   - Hecho cuando: "ejemp" encuentra "Bodega Ejemplo" y "prueba" encuentra "Línea Prueba
-    Malbec" sin distinguir mayúsculas ni acentos (CA-19); tests rojos primero.
+    Malbec" sin distinguir mayúsculas ni acentos (CA-19); tests rojos primero. ✔ 2026-10-11
+    (8 tests; además: eñe → n, espacios colapsados, término vacío no coincide)
 
 - [ ] **T4. Validaciones de guardado.** `js/validaciones.js`: `validarFicha`,
   `sumarComposicion`, `camposObligatorios`; produce los motivos exactos de RF-11.
