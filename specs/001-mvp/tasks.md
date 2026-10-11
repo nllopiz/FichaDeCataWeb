@@ -14,13 +14,16 @@
   - Hecho cuando: `npm test`, `npm run lint` y un E2E smoke (abre `index.html` y ve el
     formulario) pasan en verde; no hay secretos en el repo. ✔ 2026-10-11
 
-- [ ] **T2. Catálogos cerrados (datos).** `js/catalogos.js` con RF-9 (todos los campos
+- [x] **T2. Catálogos cerrados (datos).** `js/catalogos.js` con RF-9 (todos los campos
   de lista cerrada, incluida la lista de defectos), RF-12 (tono por tipo, con naranjo y
   espumantes), RF-16 (color y método para espumante) y RF-13 (familias → descriptores).
   RF-9, RF-12, RF-13, RF-16
   - Hecho cuando: unitarios verifican que cada campo de RF-9 tiene exactamente sus
     valores (CA-6), que naranjo = blanco + cobre (CA-12) y que espumante ofrece color y
-    método (CA-15); rojo primero, verde después.
+    método (CA-15); rojo primero, verde después. ✔ 2026-10-11 (13 tests)
+  - Nota: la lista de cosecha cubre el año actual + 50 hacia atrás + "Sin añada (NV)"
+    (la spec no fija el alcance del historial); Dulce y Fortificado quedan sin tono
+    definido en la v1 (opcional, RF-4).
 
 - [ ] **T3. Normalización de texto.** `js/normalizacion.js`: `normalizarTexto` (minúsculas
   + NFD sin marcas diacríticas) y `coincide` (coincidencia parcial). RF-7
