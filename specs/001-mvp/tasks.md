@@ -62,13 +62,16 @@
     2026-10-11 (11 tests; además: scope mínimo exacto, no pide token al iniciar,
     reutiliza token en memoria, `revoke` al descartar)
 
-- [ ] **T8. Cliente de Sheets con caché.** `js/sheets.js`: `batchGet` único,
+- [x] **T8. Cliente de Sheets con caché.** `js/sheets.js`: `batchGet` único,
   `append`, `batchUpdate` por `id`, caché en memoria invalidada al escribir, y mapeo de
   errores 401/403/429/5xx a estados de la app. RF-2, RNF-1, RNF-2, RNF-3
   - Hecho cuando: con `route` de Playwright y datos ficticios, la lectura cachea (una
     sola llamada por precarga); 403 produce "no tenés acceso" sin datos técnicos (CA-8);
     cada fila escrita incluye `id`, `autor` (mail), `fecha_creacion` y
-    `fecha_modificacion` (CA-9).
+    `fecha_modificacion` (CA-9). ✔ 2026-10-11 (18 tests unitarios con doble de `fetch`:
+    caché y una sola llamada, validación de encabezados sin escribir, fila por id,
+    errores mapeados sin datos técnicos; los E2E con `route` de Playwright se hacen en
+    T14–T16 donde ya existe la vista cableada)
 
 - [ ] **T9. Formulario completo.** `js/formulario.js` + `index.html` + `css`:
   todas las secciones de la ficha (datos del vino, visual, olfativa, gustativa,
