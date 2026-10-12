@@ -73,7 +73,7 @@
     errores mapeados sin datos técnicos; los E2E con `route` de Playwright se hacen en
     T14–T16 donde ya existe la vista cableada)
 
-- [ ] **T9. Formulario completo.** `js/formulario.js` + `index.html` + `css`:
+- [x] **T9. Formulario completo.** `js/formulario.js` + `index.html` + `css/estilos.css`:
   todas las secciones de la ficha (datos del vino, visual, olfativa, gustativa,
   apreciación), selects de RF-9, tono dependiente (RF-12), espumante con color/método
   (RF-16), multiselección dos niveles (RF-13) y filas de cepas con porcentaje (RF-14).
@@ -81,6 +81,9 @@
   - Hecho cuando: E2E carga una ficha completa con todos los campos de la spec
     (CA-1); elegir Tinto acota el tono a sus valores (CA-12); elegir Espumante muestra
     color y método (CA-15); se pueden marcar descriptores de distintas familias (CA-12).
+    ✔ 2026-10-12 (4 E2E nuevos + 5 unitarios de `leerFicha`; además: limpieza con
+    valores extra de tintos, defecto solo con "Defectuoso", suma de composición en vivo
+    con `aria-live`, quitar cepa sin dejar el formulario sin filas)
 
 - [ ] **T10. Orquestación del guardado.** `js/guardado.js`: bloqueo de doble toque
   (2 s), flujo guardar → identificar si hace falta → registrar (append o
