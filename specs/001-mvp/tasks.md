@@ -54,11 +54,13 @@
     2026-10-11 (7 tests; además: borradores independientes por ficha, JSON corrupto →
     null, cuota llena → `false` sin lanzar)
 
-- [ ] **T7. Identificación con Google (GIS).** `js/auth.js`: token client con scope
+- [x] **T7. Identificación con Google (GIS).** `js/auth.js`: token client con scope
   mínimo, token **solo en memoria**, `obtenerToken()` (popup) y `descartarToken()`;
   manejo de cancelación. RF-18, RF-19, RNF-1
   - Hecho cuando: unitarios con doble de GIS verifican que el token nunca se escribe en
-    localStorage ni en el DOM; cancelar el popup devuelve "sin token" sin error.
+    localStorage ni en el DOM; cancelar el popup devuelve "sin token" sin error. ✔
+    2026-10-11 (11 tests; además: scope mínimo exacto, no pide token al iniciar,
+    reutiliza token en memoria, `revoke` al descartar)
 
 - [ ] **T8. Cliente de Sheets con caché.** `js/sheets.js`: `batchGet` único,
   `append`, `batchUpdate` por `id`, caché en memoria invalidada al escribir, y mapeo de
