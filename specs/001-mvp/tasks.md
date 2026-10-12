@@ -85,14 +85,18 @@
     valores extra de tintos, defecto solo con "Defectuoso", suma de composición en vivo
     con `aria-live`, quitar cepa sin dejar el formulario sin filas)
 
-- [ ] **T10. Orquestación del guardado.** `js/guardado.js`: bloqueo de doble toque
+- [x] **T10. Orquestación del guardado.** `js/guardado.js`: bloqueo de doble toque
   (2 s), flujo guardar → identificar si hace falta → registrar (append o
   batchUpdate por id), auditoría, y borrado de borrador solo en éxito. RF-2, RF-5,
   RF-8, RF-15, RF-17, RF-18, RF-19, RNF-2
   - Hecho cuando: doble toque real en E2E produce exactamente una ficha (CA-3); guardar
     sin identificar abre el popup y, tras identificar, se registra (CA-20); cancelar la
     identificación no registra nada (CA-21); editar y guardar no incrementa el total y
-    la búsqueda devuelve la versión corregida (CA-5).
+    la búsqueda devuelve la versión corregida (CA-5). ✔ 2026-10-12 (17 unitarios + 4
+    E2E nuevos; CA-5 unitario por id con `batchUpdate` — su E2E con búsqueda llega en
+    T11; además: 401 descarta y reintenta una vez, fechas dd/mm/aaaa 24 h en Buenos
+    Aires, `autor` = `CONFIG.correoDueno` (decisión: mail del dueño en config pública,
+    sin scope de perfil))
 
 - [ ] **T11. Búsqueda y resultados.** `js/busqueda.js` + `js/ui.js`: búsqueda sobre la
   caché con debounce, mensaje exacto "Sin resultados para ‹término›", vista de

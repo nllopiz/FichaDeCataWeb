@@ -9,6 +9,7 @@
       rel="stylesheet"
     />
     <link href="css/estilos.css" rel="stylesheet" />
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
   </head>
   <body>
     <main class="container py-4">
@@ -295,6 +296,18 @@
               ></textarea>
             </div>
           </fieldset>
+
+          <div class="mb-3">
+            <button type="submit" class="btn btn-primary" id="guardar">
+              Guardar
+            </button>
+          </div>
+          <p
+            id="estado-guardado"
+            class="form-text"
+            role="status"
+            aria-live="polite"
+          ></p>
         </form>
       </section>
 

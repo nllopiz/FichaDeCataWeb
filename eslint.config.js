@@ -18,12 +18,15 @@ export default [
     },
   },
   {
-    files: [
-      "e2e/**/*.js",
-      "scripts/**/*.mjs",
-      "*.config.js",
-      "eslint.config.js",
-    ],
+    // Los specs de Playwright corren en Node, pero sus callbacks (addInitScript,
+    // evaluate) se ejecutan en el navegador: ambos conjuntos de globals.
+    files: ["e2e/**/*.js"],
+    languageOptions: {
+      globals: { ...globals.node, ...globals.browser },
+    },
+  },
+  {
+    files: ["scripts/**/*.mjs", "*.config.js", "eslint.config.js"],
     languageOptions: {
       globals: { ...globals.node },
     },
