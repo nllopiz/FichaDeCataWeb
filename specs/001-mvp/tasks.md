@@ -39,12 +39,13 @@
     obligatorios completos y opcionales vacíos es válido (RF-4). ✔ 2026-10-11 (13 tests;
     además: graduación acepta coma o punto decimal y rechaza no-numéricos)
 
-- [ ] **T5. Serialización y saneado.** `js/normalizacion.js` (o `js/serializacion.js`):
-  `serializarFila`/`parsearFila` con separador ";", `saneado` anti-fórmula (`=`, `+`,
-  `-`, `@` → `'`) y `generarId` (timestamp epoch ms). RF-1, RF-14
+- [x] **T5. Serialización y saneado.** `js/serializacion.js`: `serializarFila`/`parsearFila`
+  con separador ";", `saneado` anti-fórmula (`=`, `+`, `-`, `@` → `'`) y `generarId`
+  (timestamp epoch ms monótono). RF-1, RF-14
   - Hecho cuando: el round-trip serialize→parsear devuelve la misma ficha; una nota que
     empieza con "=" se guarda precedida de comilla simple (skill seguridad-gis-sheets);
-    dos `generarId()` consecutivos son distintos.
+    dos `generarId()` consecutivos son distintos. ✔ 2026-10-11 (12 tests; 35 columnas
+    en el orden del plan §2)
 
 - [ ] **T6. Borrador en localStorage.** `js/borrador.js`: persistir por clave (`"nueva"`
   o `id`), recuperar, borrar tras guardado exitoso y al crear formulario nuevo. RF-6
