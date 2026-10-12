@@ -47,10 +47,12 @@
     dos `generarId()` consecutivos son distintos. ✔ 2026-10-11 (12 tests; 35 columnas
     en el orden del plan §2)
 
-- [ ] **T6. Borrador en localStorage.** `js/borrador.js`: persistir por clave (`"nueva"`
+- [x] **T6. Borrador en localStorage.** `js/borrador.js`: persistir por clave (`"nueva"`
   o `id`), recuperar, borrar tras guardado exitoso y al crear formulario nuevo. RF-6
   - Hecho cuando: con jsdom, persistir→recuperar devuelve el mismo contenido; el borrador
-    se borra al guardar y al pulsar "Nueva ficha" (grill-me p. 1); no guarda token.
+    se borra al guardar y al pulsar "Nueva ficha" (grill-me p. 1); no guarda token. ✔
+    2026-10-11 (7 tests; además: borradores independientes por ficha, JSON corrupto →
+    null, cuota llena → `false` sin lanzar)
 
 - [ ] **T7. Identificación con Google (GIS).** `js/auth.js`: token client con scope
   mínimo, token **solo en memoria**, `obtenerToken()` (popup) y `descartarToken()`;
