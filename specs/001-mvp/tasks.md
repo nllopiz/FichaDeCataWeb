@@ -164,13 +164,17 @@
     planilla." en lectura y escritura y la hoja queda intacta. Verde desde el primer
     intento: lo implementado en T7/T8/T10 ya cumplía, la tarea lo verifica)
 
-- [ ] **T17. Guías del Solicitante.** `docs/guia-configuracion-hoja.md` (crear hoja con
+- [x] **T17. Guías del Solicitante.** `docs/guia-configuracion-hoja.md` (crear hoja con
   encabezados exactos, compartir solo con la cuenta del dueño),
   `docs/guia-despliegue.md` (GitHub Pages paso a paso) y `docs/guia-uso.md` (uso diario,
   re-autorización cada 7 días en modo "Probando", aviso de que el borrador se conserva
   hasta guardar o crear nuevo). RNF-1, RNF-4
   - Hecho cuando: las tres guías existen, usan datos ficticios y la de hoja lista los
-    encabezados en el orden exacto del plan (sección 2).
+    encabezados en el orden exacto del plan (sección 2). ✔ 2026-10-13 (3 guías nuevas
+    + `tests/documentacion.test.js` con 5 tests: existencia, encabezados idénticos a
+    `COLUMNAS` —orden exacto verificado por código—, solo correos `@ejemplo.test` y sin
+    IDs de planilla reales, 7 días/"Probando"/borrador/"Nueva ficha" en la de uso y
+    GitHub Pages en la de despliegue)
 
 - [ ] **T18. Verificación final del MVP.** Recorrido completo: `npm test` +
   `npm run lint` + `npm run test:e2e` en verde; checklist CA-1 a CA-21 contra la spec;
