@@ -15,8 +15,30 @@
     <main class="container py-4">
       <h1>Ficha de Cata Web</h1>
 
+      <nav class="mb-4 d-flex gap-2" aria-label="Secciones de la app">
+        <button type="button" class="btn btn-outline-primary" data-ir="carga">
+          Cargar ficha
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-primary"
+          data-ir="busqueda"
+        >
+          Buscar fichas
+        </button>
+      </nav>
+
       <section id="vista-carga" aria-labelledby="titulo-carga">
-        <h2 id="titulo-carga">Nueva ficha</h2>
+        <div class="d-flex gap-3 align-items-center mb-3">
+          <h2 id="titulo-carga" class="my-0">Nueva ficha</h2>
+          <button
+            type="button"
+            class="btn btn-outline-secondary btn-sm"
+            id="nueva-ficha"
+          >
+            Nueva ficha
+          </button>
+        </div>
         <form id="form-ficha" aria-label="Formulario de ficha de cata">
           <fieldset class="mb-4">
             <legend class="fs-5">Datos del vino</legend>
@@ -319,6 +341,13 @@
           >
           <input class="form-control" id="busqueda" type="search" />
         </div>
+        <div id="resultados-busqueda"></div>
+        <p
+          id="estado-busqueda"
+          class="form-text"
+          role="status"
+          aria-live="polite"
+        ></p>
       </section>
 
       <section id="vista-edicion" aria-labelledby="titulo-edicion" hidden>

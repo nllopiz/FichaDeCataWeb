@@ -98,12 +98,15 @@
     Aires, `autor` = `CONFIG.correoDueno` (decisión: mail del dueño en config pública,
     sin scope de perfil))
 
-- [ ] **T11. Búsqueda y resultados.** `js/busqueda.js` + `js/ui.js`: búsqueda sobre la
+- [x] **T11. Búsqueda y resultados.** `js/busqueda.js` + `js/ui.js`: búsqueda sobre la
   caché con debounce, mensaje exacto "Sin resultados para ‹término›", vista de
   resultados y apertura para editar. RF-7, RF-10, RF-8
   - Hecho cuando: E2E encuentra fichas por bodega y por línea con texto parcial
     (CA-19); una búsqueda sin coincidencias muestra el mensaje exacto (CA-16) anunciado
-    por `aria-live`.
+    por `aria-live`. ✔ 2026-10-12 (4 E2E nuevos —incluye CA-5 editar sin duplicar y
+    "Nueva ficha"— y 16 unitarios; buscar exige identificarse según CL-7; navegación
+    entre vistas; fix de `auth.js`: `obtenerToken` devolvía `null` con callback
+    síncrono, con test de regresión)
 
 - [ ] **T12. Precarga y avance ante corte de conexión.** Precarga de la hoja en segundo
   plano al abrir (con "Cargando…" en búsqueda) y cableo del borrador al formulario:

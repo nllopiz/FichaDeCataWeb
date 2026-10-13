@@ -63,11 +63,14 @@ export function obtenerToken() {
   if (promesaPendiente) {
     return promesaPendiente;
   }
-  promesaPendiente = new Promise((resolve) => {
+  // El objeto local se devuelve aunque un callback síncrono ya lo haya resuelto
+  // (doble de GIS en pruebas); el popup real resuelve después, en otro turno.
+  const promesa = new Promise((resolve) => {
     resolverPendiente = resolve;
   });
+  promesaPendiente = promesa;
   cliente.requestAccessToken();
-  return promesaPendiente;
+  return promesa;
 }
 
 export function descartarToken() {

@@ -79,7 +79,7 @@ test("CA-20: guardar sin identificar pide identificación y, tras ella, registra
   );
 
   await expect.poll(() => llamadas.append.length).toBe(1);
-  await expect(page.getByRole("status")).toHaveText("Ficha guardada.");
+  await expect(page.locator("#estado-guardado")).toHaveText("Ficha guardada.");
 
   const celdas = llamadas.append[0].values[0];
   expect(typeof celdas[0]).toBe("number"); // id de creación
@@ -120,7 +120,7 @@ test("CA-21: cancelar la identificación no registra nada y no se pierde lo escr
   await expect(page.getByLabel("Bodega", { exact: true })).toHaveValue(
     "Bodega Ejemplo",
   );
-  await expect(page.getByRole("status")).toContainText(
+  await expect(page.locator("#estado-guardado")).toContainText(
     "no se registró ninguna ficha",
   );
 });
@@ -132,10 +132,10 @@ test("RF-11: guardar incompleto muestra el motivo sin registrar", async ({
 
   await page.getByRole("button", { name: "Guardar" }).click();
 
-  await expect(page.getByRole("status")).toContainText(
+  await expect(page.locator("#estado-guardado")).toContainText(
     "Faltan campos obligatorios",
   );
-  await expect(page.getByRole("status")).toContainText("Bodega");
+  await expect(page.locator("#estado-guardado")).toContainText("Bodega");
   expect(llamadas.append).toHaveLength(0);
   expect(llamadas.batchUpdate).toHaveLength(0);
 });

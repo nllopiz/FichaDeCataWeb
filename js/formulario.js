@@ -262,3 +262,30 @@ export function leerFicha(form) {
   ].map((casilla) => casilla.value);
   return ficha;
 }
+
+// RF-8: abrir una ficha existente para editar (y resetear con "Nueva ficha").
+export function cargarFicha(form, ficha) {
+  for (const campo of CAMPOS_FICHA) {
+    const elemento = form.querySelector(`#${campo}`);
+    if (elemento) {
+      elemento.value = ficha[campo] ?? "";
+    }
+  }
+  for (const fila of form.querySelectorAll(".fila-cepa")) {
+    fila.remove();
+  }
+  const cepas = ficha.composicion?.length ? ficha.composicion : [{}];
+  for (const cepa of cepas) {
+    agregarFilaCepa(form, cepa);
+  }
+  for (const casilla of form.querySelectorAll(
+    'input[name="notas_aromaticas"]',
+  )) {
+    casilla.checked = (ficha.notas_aromaticas ?? []).includes(casilla.value);
+  }
+  for (const casilla of form.querySelectorAll('input[name="aromas_boca"]')) {
+    casilla.checked = (ficha.aromas_boca ?? []).includes(casilla.value);
+  }
+  actualizarDependencias(form);
+  actualizarSuma(form);
+}

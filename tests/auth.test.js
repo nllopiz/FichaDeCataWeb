@@ -65,6 +65,24 @@ describe("obtenerToken (RF-18)", () => {
     expect(hayToken()).toBe(true);
   });
 
+  it("resuelve el token aunque el callback del popup llegue síncrono", async () => {
+    // Doble que resuelve dentro de requestAccessToken (como en pruebas E2E).
+    globalThis.google = {
+      accounts: {
+        oauth2: {
+          initTokenClient: (config) => ({
+            requestAccessToken: () =>
+              config.callback({ access_token: "TOKEN_FALSO" }),
+          }),
+          revoke: () => {},
+        },
+      },
+    };
+    const { configurarAuth, obtenerToken } = await nuevoAuth();
+    configurarAuth({ clientId: CLIENT_ID_FALSO });
+    await expect(obtenerToken()).resolves.toBe("TOKEN_FALSO");
+  });
+
   it("cancelar el popup devuelve 'sin token' sin error (RF-19)", async () => {
     instalarDobleGIS();
     const { configurarAuth, obtenerToken, hayToken } = await nuevoAuth();
