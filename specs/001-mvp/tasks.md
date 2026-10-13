@@ -141,11 +141,16 @@
     `#suma-composicion` ganó `role="status"`. El contraste de los colores actuales ya
     pasaba; no se instaló `@axe-core/playwright` — pendiente de aprobación expresa)
 
-- [ ] **T15. Concurrencia y gana el último.** E2E con dos contextos de navegador:
+- [x] **T15. Concurrencia y gana el último.** E2E con dos contextos de navegador:
   ambos guardan la misma ficha; el último guardado es la versión vigente en la
   búsqueda. RF-15
   - Hecho cuando: CA-14 pasa: guardado desde el segundo contexto, la búsqueda devuelve
-    esa versión y el total de fichas no cambia.
+    esa versión y el total de fichas no cambia. ✔ 2026-10-13 (1 E2E nuevo:
+    `e2e/concurrencia.spec.js` con dos contextos y una hoja en memoria compartida —
+    ambos editan la misma ficha, el segundo guarda primero y el primero al final;
+    1 fila sin append, 2 `batchUpdate`, la búsqueda del dispositivo que guardó al
+    final da la versión 13 y el otro la ve al recargar. Verde desde el primer intento:
+    lo implementado en T8/T10 ya cumplía, la tarea lo verifica)
 
 - [ ] **T16. Permisos de la hoja privada.** Verificación E2E del tercero: contexto sin
   token (o con cuenta distinta simulada) no ve ni puede editar fichas guardadas; el
