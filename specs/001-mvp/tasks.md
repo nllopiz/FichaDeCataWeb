@@ -118,10 +118,14 @@
     guardar y aviso "Recuperamos lo que habías cargado." al restaurar; la precarga al
     abrir solo ocurre cuando ya hay token, porque el token vive solo en memoria —RF-19)
 
-- [ ] **T13. Uso en móvil.** Ajustes de `css/estilos.css` y del formulario para
+- [x] **T13. Uso en móvil.** Ajustes de `css/estilos.css` y del formulario para
   teléfono: todas las secciones visibles y operables sin recortes. RNF-6
   - Hecho cuando: E2E en viewport de teléfono completa cargar → buscar → editar sin
-    campos ocultos (CA-7).
+    campos ocultos (CA-7). ✔ 2026-10-13 (2 E2E nuevos: CA-7 a 390 px y a 320 px, con
+    verificación de scroll horizontal, controles fuera de pantalla y campos ocultos
+    fuera de los bloques condicionales; **no hizo falta cambiar CSS**: la columna única
+    de Bootstrap y `.fila-cepa` ya caben — medido, fila de cepas 12..308 dentro de 320
+    con `scrollWidth` = 320; el `viewport` meta ya estaba)
 
 - [ ] **T14. Accesibilidad AA.** `labels` asociados, `aria-live` para errores y
   resultados, foco visible, contraste y navegación con teclado del flujo completo.
