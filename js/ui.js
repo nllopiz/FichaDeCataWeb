@@ -4,11 +4,24 @@
 const VISTAS = ["carga", "busqueda", "edicion"];
 
 export function mostrarVista(nombre) {
+  let vistaNueva = null;
   for (const vista of VISTAS) {
     const seccion = document.querySelector(`#vista-${vista}`);
     if (seccion) {
       seccion.hidden = vista !== nombre;
+      if (vista === nombre) {
+        vistaNueva = seccion;
+      }
     }
+  }
+  // WCAG 2.4.3: el foco pasa al título de la vista nueva, para que el lector
+  // de pantalla anuncie el cambio y el Tab siga un orden lógico.
+  const titulo = vistaNueva?.querySelector("h1, h2");
+  if (titulo) {
+    if (!titulo.hasAttribute("tabindex")) {
+      titulo.setAttribute("tabindex", "-1");
+    }
+    titulo.focus();
   }
 }
 

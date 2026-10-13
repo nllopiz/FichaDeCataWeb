@@ -23,3 +23,16 @@
   color: #b02a37;
   font-weight: 600;
 }
+
+/* T14 · WCAG 2.4.7 / 1.4.11: foco visible con el teclado. Va después de
+   Bootstrap y con su misma especificidad para ganarle a `outline: 0`
+   (azul primario sobre blanco: 4.5:1, umbral AA es 3:1). */
+.form-control:focus-visible,
+.form-select:focus-visible,
+.btn:focus-visible,
+.form-check-input:focus-visible,
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid #0d6efd;
+  outline-offset: 2px;
+}

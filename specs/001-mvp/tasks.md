@@ -127,13 +127,19 @@
     de Bootstrap y `.fila-cepa` ya caben — medido, fila de cepas 12..308 dentro de 320
     con `scrollWidth` = 320; el `viewport` meta ya estaba)
 
-- [ ] **T14. Accesibilidad AA.** `labels` asociados, `aria-live` para errores y
+- [x] **T14. Accesibilidad AA.** `labels` asociados, `aria-live` para errores y
   resultados, foco visible, contraste y navegación con teclado del flujo completo.
   RNF-5
   - Hecho cuando: E2E recorre carga → guardar → búsqueda solo con teclado y los
     errores se anuncian con roles/estados correctos (CA-11); revisión de contraste de
     los componentes Bootstrap usados. (Opcional `@axe-core/playwright`: instalar solo
-    con aprobación expresa.)
+    con aprobación expresa.) ✔ 2026-10-13 (4 E2E nuevos + 1 unitario: CA-11 teclado
+    puro con `Tab`/flechas y errores por `role="status"`; nombre accesible de todo
+    control; foco visible (CSS nuevo con outline ≥3:1, ganándole a `outline: 0` de
+    Bootstrap); contraste AA 4.5:1 medido por código sobre los textos y botones.
+    `mostrarVista` ahora lleva el foco al título de la vista nueva — WCAG 2.4.3.
+    `#suma-composicion` ganó `role="status"`. El contraste de los colores actuales ya
+    pasaba; no se instaló `@axe-core/playwright` — pendiente de aprobación expresa)
 
 - [ ] **T15. Concurrencia y gana el último.** E2E con dos contextos de navegador:
   ambos guardan la misma ficha; el último guardado es la versión vigente en la

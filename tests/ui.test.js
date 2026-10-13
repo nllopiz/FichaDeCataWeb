@@ -7,6 +7,7 @@ function paginasDePrueba() {
   document.body.innerHTML = `
     <section id="vista-carga"><h2 id="titulo-carga">Nueva ficha</h2></section>
     <section id="vista-busqueda" hidden>
+      <h2 id="titulo-busqueda">Buscar fichas</h2>
       <div id="resultados-busqueda"></div>
     </section>
     <section id="vista-edicion" hidden></section>
@@ -25,6 +26,15 @@ describe("mostrarVista", () => {
     expect(document.querySelector("#vista-busqueda").hidden).toBe(false);
     expect(document.querySelector("#vista-carga").hidden).toBe(true);
     expect(document.querySelector("#vista-edicion").hidden).toBe(true);
+  });
+
+  it("al cambiar de vista lleva el foco al título de la nueva (WCAG 2.4.3)", () => {
+    mostrarVista("busqueda");
+
+    expect(document.activeElement).toBe(
+      document.querySelector("#titulo-busqueda"),
+    );
+    expect(document.activeElement.getAttribute("tabindex")).toBe("-1");
   });
 });
 
