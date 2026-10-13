@@ -104,6 +104,27 @@ describe("precargar: batchGet único y caché (RNF-3)", () => {
     expect(sheets.fichas()).toBeNull();
   });
 
+  it("precargas concurrentes comparten una sola llamada (Cargando… único)", async () => {
+    let resolverFetch;
+    globalThis.fetch = vi.fn(
+      () =>
+        new Promise((resolver) => {
+          resolverFetch = resolver;
+        }),
+    );
+    const sheets = await sheetsConfigurado();
+
+    const primera = sheets.precargar();
+    const segunda = sheets.precargar();
+    await new Promise((resolver) => setTimeout(resolver, 0)); // fetch se invoca en un microtask
+    resolverFetch(respuestaOk(hojaCon([fichaBase()])));
+    await primera;
+    await segunda;
+
+    expect(globalThis.fetch).toHaveBeenCalledOnce();
+    expect(sheets.fichas()).toHaveLength(1);
+  });
+
   it("encabezados distintos a los de la guía → error claro y NO se cachea (plan §2)", async () => {
     globalThis.fetch.mockResolvedValue(
       respuestaOk({

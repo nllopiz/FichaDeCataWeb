@@ -99,6 +99,10 @@ if (form) {
         idEnEdicion = null;
         fechaCreacionPrevia = null;
         sheets.invalidarCache();
+        // Precarga en segundo plano: la próxima búsqueda responde con caché (RNF-3).
+        sheets.precargar().catch(() => {
+          // Si falla, la búsqueda informa y reintenta (skill sheets-api-navegador §6).
+        });
         // CA-5: la búsqueda vuelve a consultarse y muestra la versión vigente.
         mostrarVista("busqueda");
         await buscar();
@@ -147,10 +151,11 @@ if (form) {
 
   entradaBusqueda.addEventListener("input", conRetraso(buscar));
 
-  // Restaurar borrador si existe (RF-6): lo completo llega en T12 con "Cargando…".
+  // Restaurar borrador si existe (RF-6, CA-4): la recarga no pierde el avance.
   const borrador = recuperarBorrador(CLAVE_NUEVA);
   if (borrador) {
     cargarFicha(form, borrador);
+    estadoGuardado.textContent = "Recuperamos lo que habías cargado.";
   }
 }
 

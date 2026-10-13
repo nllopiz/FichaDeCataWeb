@@ -108,12 +108,15 @@
     entre vistas; fix de `auth.js`: `obtenerToken` devolvía `null` con callback
     síncrono, con test de regresión)
 
-- [ ] **T12. Precarga y avance ante corte de conexión.** Precarga de la hoja en segundo
+- [x] **T12. Precarga y avance ante corte de conexión.** Precarga de la hoja en segundo
   plano al abrir (con "Cargando…" en búsqueda) y cableo del borrador al formulario:
   recargar o perder la red restaura lo escrito. RF-6, RNF-3
   - Hecho cuando: E2E con `route.abort` a mitad de carga y recarga muestra el avance
     restaurado (CA-4); la primera búsqueda con caché precargada responde < 2 s con 500
-    filas ficticias (CA-10).
+    filas ficticias (CA-10). ✔ 2026-10-12 (2 E2E nuevos —CA-4 y CA-10— y 1 unitario;
+    precarga concurrente compartida en `sheets.js`, precarga en segundo plano tras
+    guardar y aviso "Recuperamos lo que habías cargado." al restaurar; la precarga al
+    abrir solo ocurre cuando ya hay token, porque el token vive solo en memoria —RF-19)
 
 - [ ] **T13. Uso en móvil.** Ajustes de `css/estilos.css` y del formulario para
   teléfono: todas las secciones visibles y operables sin recortes. RNF-6

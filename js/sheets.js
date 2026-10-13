@@ -42,6 +42,7 @@ function mapearEstado(estado) {
 
 let configuracion = null;
 let cache = null; // { filas: [{ numeroFila, celdas }] } en memoria de la página
+let precargaEnCurso = null; // "Cargando…" único: una sola llamada concurrente
 
 export function configurarSheets({ spreadsheetId, obtenerToken }) {
   configuracion = { spreadsheetId, obtenerToken };
@@ -79,10 +80,7 @@ async function pedir(ruta, opciones = {}) {
   return respuesta;
 }
 
-export async function precargar() {
-  if (cache) {
-    return fichas();
-  }
+async function realizarPrecarga() {
   const respuesta = await pedir(`values:batchGet?ranges=${RANGO_HOJA}`);
   const datos = await respuesta.json().catch(() => null);
   const valores = datos?.valueRanges?.[0]?.values ?? [];
@@ -98,6 +96,19 @@ export async function precargar() {
 
   cache = { filas: filas.map((celdas, i) => ({ numeroFila: i + 2, celdas })) };
   return fichas();
+}
+
+export async function precargar() {
+  if (cache) {
+    return fichas();
+  }
+  if (precargaEnCurso) {
+    return precargaEnCurso;
+  }
+  precargaEnCurso = realizarPrecarga().finally(() => {
+    precargaEnCurso = null;
+  });
+  return precargaEnCurso;
 }
 
 export function fichas() {
