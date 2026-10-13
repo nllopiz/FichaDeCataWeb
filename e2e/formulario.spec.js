@@ -1,9 +1,45 @@
 import { test, expect } from "@playwright/test";
+import { COLUMNAS } from "../js/serializacion.js";
+
+// GIS simulado con token automático; Sheets con hoja vacía que acepta guardar
+// (datos ficticios, nunca una planilla real).
+async function prepararPagina(page) {
+  const hoja = { filas: [] };
+  await page.route("https://accounts.google.com/**", (ruta) => ruta.abort());
+  await page.addInitScript(() => {
+    window.google = {
+      accounts: {
+        oauth2: {
+          initTokenClient: (config) => ({
+            requestAccessToken: () =>
+              config.callback({ access_token: "TOKEN_E2E" }),
+          }),
+          revoke: () => {},
+        },
+      },
+    };
+  });
+  await page.route("https://sheets.googleapis.com/**", async (ruta) => {
+    const url = new URL(ruta.request().url());
+    if (url.pathname.includes(":batchGet")) {
+      await ruta.fulfill({
+        json: { valueRanges: [{ values: [COLUMNAS, ...hoja.filas] }] },
+      });
+    } else if (url.pathname.includes(":append")) {
+      hoja.filas.push(JSON.parse(ruta.request().postData()).values[0]);
+      await ruta.fulfill({ json: {} });
+    } else {
+      await ruta.fulfill({ json: {} });
+    }
+  });
+  await page.goto("/");
+  return hoja;
+}
 
 test("CA-1: se puede cargar una ficha completa con todos los campos", async ({
   page,
 }) => {
-  await page.goto("/");
+  await prepararPagina(page);
 
   await page.getByLabel("Bodega", { exact: true }).fill("Bodega Ejemplo");
   await page.getByLabel("País").fill("Argentina");
@@ -63,6 +99,19 @@ test("CA-1: se puede cargar una ficha completa con todos los campos", async ({
   await expect(page.locator("#aromas-boca").getByLabel("Cuero")).toBeChecked();
   await expect(page.getByLabel("Apreciación personal")).toHaveValue(
     "Muy buena para el precio.",
+  );
+
+  // CA-1: guarda y vuelve a encontrarla por bodega y por línea (RF-1, RF-2, RF-7).
+  await page.getByRole("button", { name: "Guardar" }).click();
+  await expect(page.locator("#estado-guardado")).toHaveText("Ficha guardada.");
+  await page.getByRole("button", { name: "Buscar fichas" }).click();
+  await page.getByLabel("Búsqueda por bodega o línea").fill("ejemp");
+  await expect(page.locator("#resultados-busqueda")).toContainText(
+    "Bodega Ejemplo",
+  );
+  await page.getByLabel("Búsqueda por bodega o línea").fill("prueba");
+  await expect(page.locator("#resultados-busqueda")).toContainText(
+    "Línea Prueba Malbec",
   );
 });
 

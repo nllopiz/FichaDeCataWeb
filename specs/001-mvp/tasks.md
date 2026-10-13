@@ -176,13 +176,66 @@
     IDs de planilla reales, 7 días/"Probando"/borrador/"Nueva ficha" en la de uso y
     GitHub Pages en la de despliegue)
 
-- [ ] **T18. Verificación final del MVP.** Recorrido completo: `npm test` +
+- [x] **T18. Verificación final del MVP.** Recorrido completo: `npm test` +
   `npm run lint` + `npm run test:e2e` en verde; checklist CA-1 a CA-21 contra la spec;
   revisión de que no hay secretos, que el token no se persiste y que solo hay datos
   ficticios en tests. RNF-1, RNF-2, RNF-3, RNF-4, RNF-5, RNF-6, RNF-7
   - Hecho cuando: los 21 CA están verificados (automáticos o con pasos manuales
     documentados), la trazabilidad de abajo está completa y el Responsable técnico
-    acepta el MVP.
+    acepta el MVP. ✔ **MVP aceptado por el Responsable técnico: 2026-10-13**.
+  - ✔ 2026-10-13: **134 unitarios + 24 E2E + lint** en verde; trazabilidad completa
+    (19 RF + 7 RNF). Nuevos en T18: extensión del E2E CA-1 (ahora guarda y vuelve a
+    encontrarla por bodega y por línea — rojo→verde) y `tests/verificacion-final.test.js`
+    (CA-6, CA-18 y revisiones de seguridad).
+
+  **Checklist CA-1 … CA-21**
+
+  | CA | Verificación |
+  |---|---|
+  | CA-1 | E2E `formulario.spec.js` (carga completa + guardar + encontrar por bodega y línea) |
+  | CA-2 | Unit `validaciones.test.js` ("faltan varios… CA-2") y `guardado.test.js` (obligatorios); E2E `guardado.spec.js` RF-11 (mensaje nombra faltantes) y CA-20 (solo obligatorios → registra) |
+  | CA-3 | E2E `guardado.spec.js` CA-3 |
+  | CA-4 | E2E `precarga.spec.js` CA-4 |
+  | CA-5 | E2E `busqueda.spec.js` CA-5 |
+  | CA-6 | Unit `verificacion-final.test.js` (los 18 campos RF-9 son `<select>`) + `catalogos.test.js` (valores cerrados) |
+  | CA-7 | E2E `movil.spec.js` CA-7 (390 px y 320 px) |
+  | CA-8 | E2E `permisos.spec.js` CA-8 |
+  | CA-9 | Unit `guardado.test.js` y `sheets.test.js` (CA-9); E2E `guardado.spec.js` CA-20 (autor + auditoría) |
+  | CA-10 | E2E `precarga.spec.js` CA-10 |
+  | CA-11 | E2E `accesibilidad.spec.js` CA-11 + unit de foco (`ui.test.js`) |
+  | CA-12 | E2E `formulario.spec.js` CA-12 |
+  | CA-13 | Unit `validaciones.test.js` (CA-13, suma 95/105) y `guardado.test.js` (motivo 95) |
+  | CA-14 | E2E `concurrencia.spec.js` CA-14 |
+  | CA-15 | E2E `formulario.spec.js` CA-15 |
+  | CA-16 | E2E `busqueda.spec.js` CA-16 |
+  | CA-17 | **Manual** (pasos abajo); sin medición formal en v1 — decisión de grill-me p. 4 |
+  | CA-18 | Unit `verificacion-final.test.js` (sin campos de datos personales ni inputs correo/teléfono) |
+  | CA-19 | E2E `busqueda.spec.js` CA-19 + unit `busqueda.test.js` CA-19 |
+  | CA-20 | E2E `guardado.spec.js` CA-20 |
+  | CA-21 | E2E `guardado.spec.js` CA-21 + E2E `permisos.spec.js` (CL-7 y CA-21 en el escenario sin identificar) |
+
+  **CA-17 — pasos manuales de verificación (disponibilidad ≥ 99 %):**
+
+  1. Antes de publicar: revisar `https://www.githubstatus.com` y confirmar que no hay
+     incidentes activos de Pages en el momento del despliegue.
+  2. Sin interrupciones programadas de nuestro lado: el despliegue ocurre cuando el
+     dueño hace `git push`; nunca se publica en horario de uso sin avisar.
+  3. Al cierre de cada mes, anotar en el cuaderno del proyecto los minutos de caída
+     conocidos (los que el propio usuario haya registrado) y verificar:
+     `(minutos del mes − minutos de caída) / minutos del mes ≥ 0,99`.
+
+  **Revisiones de seguridad de cierre (RNF-1, RNF-7)**
+
+  - **Sin secretos**: test automático sobre `js/*.js` e `index.html` — sin
+    `client_secret`, claves privadas, API keys (`AIza…`) ni Client IDs reales;
+    `js/config.js` conserva los placeholders.
+  - **Token solo en memoria**: test automático — `auth.js` y `app.js` sin
+    `localStorage`/`sessionStorage`/cookies/URL (ignorando comentarios) y el borrador
+    descarta claves de sesión (`token`, `accessToken`) — verificado por comportamiento.
+  - **Datos ficticios**: test automático — todos los correos de `tests/` y `e2e/`
+    terminan en `@ejemplo.test`; las guías también (T17).
+  - **Pendiente único conocido**: prueba de guardado real con la planilla del dueño
+    (requiere `config.js` con valores reales; diferida a la entrega).
 
 ## Trazabilidad RF/RNF → tareas
 
