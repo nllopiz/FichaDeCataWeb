@@ -152,11 +152,17 @@
     final da la versión 13 y el otro la ve al recargar. Verde desde el primer intento:
     lo implementado en T8/T10 ya cumplía, la tarea lo verifica)
 
-- [ ] **T16. Permisos de la hoja privada.** Verificación E2E del tercero: contexto sin
+- [x] **T16. Permisos de la hoja privada.** Verificación E2E del tercero: contexto sin
   token (o con cuenta distinta simulada) no ve ni puede editar fichas guardadas; el
   formulario de carga nueva sigue disponible sin identificar. RNF-1, RF-17, RF-7
   - Hecho cuando: CA-8 pasa con el doble sin acceso; CA-21 y CL-7 cubiertos en el mismo
-    escenario.
+    escenario. ✔ 2026-10-13 (2 E2E nuevos con planilla privada simulada —solo el token
+    del dueño pasa, el resto recibe 403—: (1) CL-7 + CA-21: sin identificar no se lee
+    ni se muestra nada —0 lecturas—, buscar pide identificarse con el popup cerrado y
+    guardar cancelado no escribe y conserva lo escrito; (2) CA-8: enlace directo sin
+    contenido privado, otra cuenta identificada recibe "No tenés acceso a esta
+    planilla." en lectura y escritura y la hoja queda intacta. Verde desde el primer
+    intento: lo implementado en T7/T8/T10 ya cumplía, la tarea lo verifica)
 
 - [ ] **T17. Guías del Solicitante.** `docs/guia-configuracion-hoja.md` (crear hoja con
   encabezados exactos, compartir solo con la cuenta del dueño),
