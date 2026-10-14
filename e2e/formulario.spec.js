@@ -1,24 +1,28 @@
 import { test, expect } from "@playwright/test";
 import { COLUMNAS } from "../js/serializacion.js";
+import { ID_TOKEN_E2E } from "./dobles.js";
 
 // GIS simulado con token automático; Sheets con hoja vacía que acepta guardar
 // (datos ficticios, nunca una planilla real).
 async function prepararPagina(page) {
   const hoja = { filas: [] };
   await page.route("https://accounts.google.com/**", (ruta) => ruta.abort());
-  await page.addInitScript(() => {
+  await page.addInitScript((idToken) => {
     window.google = {
       accounts: {
         oauth2: {
           initTokenClient: (config) => ({
             requestAccessToken: () =>
-              config.callback({ access_token: "TOKEN_E2E" }),
+              config.callback({
+                access_token: "TOKEN_E2E",
+                id_token: idToken,
+              }),
           }),
           revoke: () => {},
         },
       },
     };
-  });
+  }, ID_TOKEN_E2E);
   await page.route("https://sheets.googleapis.com/**", async (ruta) => {
     const url = new URL(ruta.request().url());
     if (url.pathname.includes(":batchGet")) {

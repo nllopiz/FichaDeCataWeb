@@ -41,7 +41,7 @@ export async function guardarFicha({
   datos,
   idExistente = null,
   fechaCreacionPrevia = null,
-  autor,
+  obtenerCorreo,
   obtenerToken,
   descartarToken,
   append,
@@ -65,8 +65,14 @@ export async function guardarFicha({
     }
 
     // RF-18: identificar solo al guardar; RF-19: cancelar no registra nada.
+    // T19: además hace falta el correo de la cuenta elegida (columna `autor`);
+    // sin él, mismo criterio que "sin identificar": no se registra y se avisa.
     if (!(await obtenerToken())) {
       return { estado: "cancelado" };
+    }
+    const autor = obtenerCorreo();
+    if (!autor) {
+      return { estado: "sin-correo" };
     }
 
     const momento = fechaHoraBuenosAires(ahora());
@@ -99,6 +105,10 @@ export async function guardarFicha({
       descartarToken();
       if (!(await obtenerToken())) {
         return { estado: "cancelado" };
+      }
+      if (!obtenerCorreo()) {
+        // T19: la re-identificación también debe dar la cuenta elegida.
+        return { estado: "sin-correo" };
       }
       await registrar();
     }

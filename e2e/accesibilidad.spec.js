@@ -1,5 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { COLUMNAS, serializarFila } from "../js/serializacion.js";
+import { ID_TOKEN_E2E } from "./dobles.js";
 
 const FICHA_EJEMPLO = {
   id: 1728000000001,
@@ -18,19 +19,22 @@ const FICHA_EJEMPLO = {
 async function prepararPagina(page, filas) {
   const hoja = { filas: filas.map(serializarFila) };
   await page.route("https://accounts.google.com/**", (ruta) => ruta.abort());
-  await page.addInitScript(() => {
+  await page.addInitScript((idToken) => {
     window.google = {
       accounts: {
         oauth2: {
           initTokenClient: (config) => ({
             requestAccessToken: () =>
-              config.callback({ access_token: "TOKEN_E2E" }),
+              config.callback({
+                access_token: "TOKEN_E2E",
+                id_token: idToken,
+              }),
           }),
           revoke: () => {},
         },
       },
     };
-  });
+  }, ID_TOKEN_E2E);
   await page.route("https://sheets.googleapis.com/**", async (ruta) => {
     const url = new URL(ruta.request().url());
     if (url.pathname.includes(":batchGet")) {

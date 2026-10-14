@@ -1,5 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { COLUMNAS, serializarFila } from "../js/serializacion.js";
+import { ID_TOKEN_E2E, ID_TOKEN_INTRUSO } from "./dobles.js";
 
 const TOKEN_DUEÑO = "TOKEN_DUEÑO_E2E";
 const TOKEN_INTRUSO = "TOKEN_INTRUSO_E2E";
@@ -30,7 +31,7 @@ async function prepararPagina(page, opciones = {}) {
 
   await page.route("https://accounts.google.com/**", (ruta) => ruta.abort());
   await page.addInitScript(
-    ({ cancelar, intruso, tokenDueno, tokenIntruso }) => {
+    ({ cancelar, intruso, tokenDueno, tokenIntruso, idDueno, idIntruso }) => {
       window.google = {
         accounts: {
           oauth2: {
@@ -41,6 +42,7 @@ async function prepararPagina(page, opciones = {}) {
                 } else {
                   config.callback({
                     access_token: intruso ? tokenIntruso : tokenDueno,
+                    id_token: intruso ? idIntruso : idDueno,
                   });
                 }
               },
@@ -50,7 +52,14 @@ async function prepararPagina(page, opciones = {}) {
         },
       };
     },
-    { cancelar, intruso, tokenDueno: TOKEN_DUEÑO, tokenIntruso: TOKEN_INTRUSO },
+    {
+      cancelar,
+      intruso,
+      tokenDueno: TOKEN_DUEÑO,
+      tokenIntruso: TOKEN_INTRUSO,
+      idDueno: ID_TOKEN_E2E,
+      idIntruso: ID_TOKEN_INTRUSO,
+    },
   );
 
   await page.route("https://sheets.googleapis.com/**", async (ruta) => {

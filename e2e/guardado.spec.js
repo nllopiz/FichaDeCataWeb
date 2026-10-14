@@ -1,33 +1,40 @@
 import { test, expect } from "@playwright/test";
 import { COLUMNAS } from "../js/serializacion.js";
-import { CONFIG } from "../js/config.js";
+import { ID_TOKEN_E2E } from "./dobles.js";
 
 // GIS simulado: el popup lo controla el test (nunca una cuenta real).
 // Sheets simulado: se registran las llamadas para contar fichas (datos ficticios).
 async function prepararPagina(page, { tokenAutomatico = false } = {}) {
   await page.route("https://accounts.google.com/**", (ruta) => ruta.abort());
-  await page.addInitScript((auto) => {
-    window.__solicitudesToken = 0;
-    window.__callbackGIS = null;
-    window.__errorGIS = null;
-    window.google = {
-      accounts: {
-        oauth2: {
-          initTokenClient: (config) => ({
-            requestAccessToken: () => {
-              window.__solicitudesToken += 1;
-              window.__callbackGIS = config.callback;
-              window.__errorGIS = config.error_callback;
-              if (auto) {
-                config.callback({ access_token: "TOKEN_E2E" });
-              }
-            },
-          }),
-          revoke: () => {},
+  await page.addInitScript(
+    ({ auto, idToken }) => {
+      window.__solicitudesToken = 0;
+      window.__callbackGIS = null;
+      window.__errorGIS = null;
+      window.__idTokenE2E = idToken;
+      window.google = {
+        accounts: {
+          oauth2: {
+            initTokenClient: (config) => ({
+              requestAccessToken: () => {
+                window.__solicitudesToken += 1;
+                window.__callbackGIS = config.callback;
+                window.__errorGIS = config.error_callback;
+                if (auto) {
+                  config.callback({
+                    access_token: "TOKEN_E2E",
+                    id_token: idToken,
+                  });
+                }
+              },
+            }),
+            revoke: () => {},
+          },
         },
-      },
-    };
-  }, tokenAutomatico);
+      };
+    },
+    { auto: tokenAutomatico, idToken: ID_TOKEN_E2E },
+  );
 
   const llamadas = { append: [], batchUpdate: [] };
   await page.route("https://sheets.googleapis.com/**", async (ruta) => {
@@ -75,7 +82,10 @@ test("CA-20: guardar sin identificar pide identificación y, tras ella, registra
   expect(llamadas.append).toHaveLength(0); // sin token no se escribe nada
 
   await page.evaluate(() =>
-    window.__callbackGIS({ access_token: "TOKEN_E2E" }),
+    window.__callbackGIS({
+      access_token: "TOKEN_E2E",
+      id_token: window.__idTokenE2E,
+    }),
   );
 
   await expect.poll(() => llamadas.append.length).toBe(1);
@@ -83,7 +93,7 @@ test("CA-20: guardar sin identificar pide identificación y, tras ella, registra
 
   const celdas = llamadas.append[0].values[0];
   expect(typeof celdas[0]).toBe("number"); // id de creación
-  expect(celdas).toContain(CONFIG.correoDueno); // autor (CA-9)
+  expect(celdas).toContain("dueno@ejemplo.test"); // autor = cuenta elegida (CA-9, T19)
   expect(celdas.join(" ")).toMatch(/\d{2}\/\d{2}\/\d{4} \d{2}:\d{2}/); // auditoría
 });
 

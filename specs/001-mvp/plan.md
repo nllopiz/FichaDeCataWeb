@@ -55,7 +55,8 @@ ficha** (decisión del Solicitante). Columnas (fila 1 = encabezados, en orden):
   (`generarId()`), único por ficha. La edición localiza la fila **por id** en la caché
   (número de fila), inmune a que el dueño ordene o filtre la hoja a mano.
 - `autor` = **mail de la cuenta identificada** (confirmado por el Responsable técnico:
-  es su propia planilla privada; CA-9).
+  es su propia planilla privada; CA-9). 2026-10-13: el mail viene del `id_token` de la
+  cuenta elegida en el selector de Google (scope `openid email`) — T19; no se configura.
 
 - Valores múltiples en **una celda separados por ";"**: descriptores (RF-13) y
   composición en formato `varietal:porcentaje; ...` (RF-1/RF-14).
@@ -161,7 +162,8 @@ al crear un formulario nuevo deliberado ("Nueva ficha"): borrar_borrador("nueva"
 
 (fuente: skills `seguridad-gis-sheets` y `sheets-api-navegador`; RNF-1, RNF-2, RNF-7)
 
-- **Identidad**: GIS solo al guardar (RF-18); scope mínimo `spreadsheets`; el token vive
+- **Identidad**: GIS solo al guardar (RF-18); scopes `openid email` (correo de la cuenta
+  elegida → columna `autor`, T19) + `spreadsheets`; el token vive
   **solo en memoria** (nunca localStorage/URL/logs); 401 → borrar token, re-identificar,
   reintentar una vez; cancelar → RF-19 (no se registra).
 - **Credenciales**: client ID e ID de hoja en `config.js` (públicos por diseño); **cero

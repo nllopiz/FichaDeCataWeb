@@ -1,8 +1,13 @@
 // @vitest-environment jsdom
 import { describe, it, expect, beforeEach, vi } from "vitest";
 
-const SCOPE_MINIMO = "https://www.googleapis.com/auth/spreadsheets";
+const SCOPE_MINIMO =
+  "openid email https://www.googleapis.com/auth/spreadsheets";
 const CLIENT_ID_FALSO = "falso-cliente.apps.googleusercontent.com";
+
+function idTokenDe(correo) {
+  return `cabecera.${btoa(JSON.stringify({ email: correo }))}.firma`;
+}
 
 let requestAccessToken;
 let configCliente;
@@ -39,7 +44,12 @@ describe("configurarAuth (RF-18, skill seguridad-gis-sheets)", () => {
 
     expect(initTokenClient).toHaveBeenCalledOnce();
     expect(configCliente.client_id).toBe(CLIENT_ID_FALSO);
+    // T19: `openid email` (correo de la cuenta elegida → autor) + Sheets.
     expect(configCliente.scope).toBe(SCOPE_MINIMO);
+    expect(configCliente.scope).toContain("openid email");
+    expect(configCliente.scope).toContain(
+      "https://www.googleapis.com/auth/spreadsheets",
+    );
   });
 
   it("al iniciar NO pide token: solo se pide al guardar (RF-18, RF-17)", async () => {
@@ -122,6 +132,86 @@ describe("obtenerToken (RF-18)", () => {
   it("sin GIS configurado rechaza con mensaje claro (nada traba la app)", async () => {
     const { obtenerToken } = await nuevoAuth();
     await expect(obtenerToken()).rejects.toThrow(/no disponible/i);
+  });
+});
+
+describe("obtenerCorreo (T19, CA-9: autor = cuenta elegida)", () => {
+  it("lee el correo de la cuenta elegida en el selector de Google (id_token)", async () => {
+    instalarDobleGIS();
+    const { configurarAuth, obtenerToken, obtenerCorreo } = await nuevoAuth();
+    configurarAuth({ clientId: CLIENT_ID_FALSO });
+
+    const promesa = obtenerToken();
+    configCliente.callback({
+      access_token: "TOKEN_FALSO",
+      id_token: idTokenDe("dueno@ejemplo.test"),
+    });
+    await promesa;
+
+    expect(obtenerCorreo()).toBe("dueno@ejemplo.test");
+  });
+
+  it("sin id_token → correo null (el guardado se abstendrá de registrar)", async () => {
+    instalarDobleGIS();
+    const { configurarAuth, obtenerToken, obtenerCorreo } = await nuevoAuth();
+    configurarAuth({ clientId: CLIENT_ID_FALSO });
+
+    const promesa = obtenerToken();
+    configCliente.callback({ access_token: "TOKEN_FALSO" });
+    await promesa;
+
+    expect(obtenerCorreo()).toBeNull();
+  });
+
+  it("un id_token ilegible también da null (jamás traba la app)", async () => {
+    instalarDobleGIS();
+    const { configurarAuth, obtenerToken, obtenerCorreo } = await nuevoAuth();
+    configurarAuth({ clientId: CLIENT_ID_FALSO });
+
+    const promesa = obtenerToken();
+    configCliente.callback({
+      access_token: "TOKEN_FALSO",
+      id_token: "no.es.un.jwt",
+    });
+    await promesa;
+
+    expect(obtenerCorreo()).toBeNull();
+  });
+
+  it("descartarToken borra también el correo de memoria", async () => {
+    instalarDobleGIS();
+    const { configurarAuth, obtenerToken, obtenerCorreo, descartarToken } =
+      await nuevoAuth();
+    configurarAuth({ clientId: CLIENT_ID_FALSO });
+
+    const promesa = obtenerToken();
+    configCliente.callback({
+      access_token: "TOKEN_FALSO",
+      id_token: idTokenDe("dueno@ejemplo.test"),
+    });
+    await promesa;
+    descartarToken();
+
+    expect(obtenerCorreo()).toBeNull();
+  });
+
+  it("el correo tampoco se persiste en ningún almacenamiento", async () => {
+    instalarDobleGIS();
+    const { configurarAuth, obtenerToken } = await nuevoAuth();
+    configurarAuth({ clientId: CLIENT_ID_FALSO });
+
+    const promesa = obtenerToken();
+    configCliente.callback({
+      access_token: "TOKEN_FALSO",
+      id_token: idTokenDe("dueno@ejemplo.test"),
+    });
+    await promesa;
+
+    expect(localStorage.length).toBe(0);
+    expect(sessionStorage.length).toBe(0);
+    expect(document.documentElement.outerHTML).not.toContain(
+      "dueno@ejemplo.test",
+    );
   });
 });
 

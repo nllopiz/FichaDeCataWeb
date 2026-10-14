@@ -4,6 +4,7 @@ import { guardarFicha } from "./guardado.js";
 import {
   configurarAuth,
   obtenerToken,
+  obtenerCorreo,
   descartarToken,
   hayToken,
 } from "./auth.js";
@@ -88,7 +89,8 @@ if (form) {
         datos: leerFicha(form),
         idExistente: idEnEdicion,
         fechaCreacionPrevia,
-        autor: CONFIG.correoDueno,
+        // T19: el autor es la cuenta elegida en el selector de Google (id_token).
+        obtenerCorreo,
         obtenerToken,
         descartarToken,
         append: sheets.append,
@@ -169,6 +171,10 @@ function mensajeDe({ estado, motivo }) {
   if (estado === "cancelado") {
     // RF-19: no se registra nada y lo escrito sigue en el formulario.
     return "Identificación cancelada: no se registró ninguna ficha. Podés intentar de nuevo.";
+  }
+  if (estado === "sin-correo") {
+    // T19: sin la cuenta elegida no hay autor para la fila (CA-9); no se registra.
+    return "No pudimos identificar tu cuenta de Google. Intentá de nuevo.";
   }
   if (estado === "duplicado") {
     return "";

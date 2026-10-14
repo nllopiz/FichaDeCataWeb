@@ -12,8 +12,11 @@ cosas: un token bien tratado y entradas bien validadas. Nada de esto se delega.
 
 - Google Identity Services (GIS) se inicializa con el **client ID** público y se
   solicita el token **solo al guardar**, nunca al cargar la página.
-- Scope mínimo: `https://www.googleapis.com/auth/spreadsheets`. No pedir scopes de
-  Drive ni de perfil que no se usen.
+- Scopes: `openid email` (el correo de la cuenta elegida alimenta la columna `autor`,
+  T19) + `https://www.googleapis.com/auth/spreadsheets`. No pedir scopes que no se
+  usen. `https://www.googleapis.com/auth/drive.file` queda reservado para cuando la
+  app gestione archivos en el Drive del usuario (T20: crear/ buscar la planilla
+  `FichaCataWeb`; aprobado por el Responsable técnico el 2026-10-13).
 - El popup de Google es de Google: no replicar, no rediseñar, no interponer pantallas
   propias antes del popup.
 

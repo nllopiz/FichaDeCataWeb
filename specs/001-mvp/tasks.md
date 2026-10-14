@@ -237,13 +237,39 @@
   - **Pendiente único conocido**: prueba de guardado real con la planilla del dueño
     (requiere `config.js` con valores reales; diferida a la entrega).
 
+## Nuevas tareas (cambio aprobado por el Responsable técnico el 2026-10-13)
+
+- [x] **T19. Cuenta elegida como `autor` (sin `correoDueno` en config).** La app pide
+  además `openid email`; el correo viene del `id_token` que Google devuelve junto al
+  token y se estampa en la columna `autor` (CA-9, RNF-2). Si Google no devuelve correo,
+  no se registra y se avisa (mismo criterio que "sin identificar no se registra",
+  RF-17/19). Se elimina `CONFIG.correoDueno` y la guía de configuración queda con dos
+  placeholders.
+  - Hecho cuando: `auth.js` expone `obtenerCorreo()`, `guardado.js` registra con el
+    correo real y devuelve `sin-correo` si falta, los E2E usan `id_token` ficticio y
+    `npm test` + `npm run lint` + `npm run test:e2e` están en verde.
+  - ✔ 2026-10-13: 141 unitarios (5 nuevos en `auth.test.js`, 2 en
+    `guardado.test.js`) + 24 E2E + lint en verde; dobles de `id_token` centralizados
+    en `e2e/dobles.js`; guía y skill actualizadas.
+- [ ] **T20. Planilla `FichaCataWeb` autogestionada (sin `idPlanilla` en config).** Si
+  no hay ID en el navegador, la app busca en el Drive de la cuenta una planilla
+  llamada `FichaCataWeb`; si no existe, la crea y escribe sola los 35 encabezados; el
+  ID se recuerda en localStorage (dato no sensible: el acceso lo protege Google).
+  Scope nuevo: `drive.file` (solo ve archivos creados por la app). Guardar = buscar o
+  crear; buscar fichas = solo buscar (no crea planillas vacías). Revierte la fila
+  "Configuración de la hoja por guía manual" del §7 del plan. La guía de configuración
+  queda con un solo placeholder (Client ID).
+  - Hecho cuando: `planilla.js` busca/crea/recorda con un solo fetch concurrente,
+    `config.js` solo tiene Client ID, hay unitarios + un E2E de primera guardada y
+    los checks de cierre están en verde.
+
 ## Trazabilidad RF/RNF → tareas
 
 | Requisito | Tarea(s) |
 |---|---|
 | RF-1 | T5, T9 |
-| RF-2 | T8, T10 |
-| RF-3 | T4 |
+| RF-2 | T8, T10, T20 |
+| RF-3 | T4, T20 |
 | RF-4 | T4 |
 | RF-5 | T10 |
 | RF-6 | T6, T12 |
@@ -258,12 +284,12 @@
 | RF-15 | T8, T10, T15 |
 | RF-16 | T2, T9 |
 | RF-17 | T1, T9, T10, T16 |
-| RF-18 | T7, T10 |
-| RF-19 | T7, T10 |
+| RF-18 | T7, T10, T19 |
+| RF-19 | T7, T10, T19 |
 | RNF-1 | T7, T8, T16, T17 |
-| RNF-2 | T8, T10 |
+| RNF-2 | T8, T10, T19 |
 | RNF-3 | T8, T12 |
-| RNF-4 | T17, T18 |
+| RNF-4 | T17, T18, T20 |
 | RNF-5 | T14, T18 |
 | RNF-6 | T13 |
 | RNF-7 | T9 (solo campos del vino), T18 |

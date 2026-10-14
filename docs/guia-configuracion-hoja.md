@@ -36,15 +36,16 @@ Si un día detectás que otra cuenta tiene acceso, sacala de inmediato.
 
 ## 4. Configurar la app (`js/config.js`)
 
-Abrí `js/config.js` y reemplazá los tres placeholders:
+Abrí `js/config.js` y reemplazá los dos placeholders:
 
-| Placeholder | Qué va | Cómo se consigue |
-| --- | --- | --- |
-| `REEMPLAZAR_ID_PLANILLA` | El ID de tu planilla | En la URL: `docs.google.com/spreadsheets/d/`**ESTE_TEXTO**`/edit` |
-| `REEMPLAZAR_CORREO_DUENO` | Tu correo de Google | El mismo con el que identificás al guardar (queda en la columna `autor`) |
-| `REEMPLAZAR_CLIENT_ID` | El Client ID de Google | Se crea en el paso 5 |
+| Placeholder              | Qué va                 | Cómo se consigue                                                  |
+| ------------------------ | ---------------------- | ----------------------------------------------------------------- |
+| `REEMPLAZAR_ID_PLANILLA` | El ID de tu planilla   | En la URL: `docs.google.com/spreadsheets/d/`**ESTE_TEXTO**`/edit` |
+| `REEMPLAZAR_CLIENT_ID`   | El Client ID de Google | Se crea en el paso 5                                              |
 
-La hoja (`hoja: "Fichas"`) ya está bien por defecto.
+La hoja (`hoja: "Fichas"`) ya está bien por defecto. **No hay que configurar ningún
+correo**: al identificarte, la app usa la cuenta que elegís en el selector de Google
+y ese correo queda en la columna `autor` de cada ficha.
 
 > Estos dos valores (Client ID e ID de planilla) son **públicos por diseño**: la
 > app no tiene secretos ni archivos `.env`. La protección real es que la planilla
@@ -82,5 +83,5 @@ y no tiene backend.
    **"La planilla no tiene los encabezados esperados. Revisá la guía de
    configuración."** — corregí la fila 1 y recargá.
 4. Guardá una ficha de prueba (por ejemplo `Bodega Ejemplo`, `Línea Prueba
-   Malbec`) y comprobá que aparece como fila nueva en la hoja con tu correo en la
+Malbec`) y comprobá que aparece como fila nueva en la hoja con tu correo en la
    columna `autor`.

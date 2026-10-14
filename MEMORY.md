@@ -40,5 +40,6 @@ Proyecto: FichaDeCataWeb (ficha de cata web, MVP en specs/001-mvp)
 
 ## Cambios de requisitos
 (fecha · spec · qué cambió)
+- 2026-10-13 · 001-mvp · Aprobado por el Responsable técnico ("si"): T19 — `autor` = correo de la cuenta elegida en el selector de Google (scope `openid email`, desde el `id_token`); se elimina `CONFIG.correoDueno`; sin correo no se registra y se avisa. T20 — planilla `FichaCataWeb` autogestionada (buscar en Drive → crear con los 35 encabezados → recordar ID en localStorage; scope `drive.file`); `config.js` queda solo con Client ID; se revierte la decisión §7 "configuración manual de la hoja" y se actualizan guías y skill.
 - 2026-10-11 · 001-mvp · Ajustes post-entrevista técnica: RNF-1 sin la frase que duplicaba RF-17; P-6 marcada resuelta (datos en Google Sheets). Spec: 19 RF + 7 RNF + 9 CL + 21 CA.
 - 2026-10-11 · 001-mvp · Flujo de identificación: carga sin login previo, identificación con cuenta de Google al guardar, sin identificación no se registra la ficha (RF-17/18/19); RNF-1, CL-7, CA-8 ajustadas; CL-9 y CA-20/CA-21 nuevas.

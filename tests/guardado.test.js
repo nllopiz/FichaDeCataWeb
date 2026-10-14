@@ -15,6 +15,8 @@ const datosValidos = () => ({
 function doblesPropios(overrides = {}) {
   return {
     obtenerToken: vi.fn(async () => "TOKEN_FALSO"),
+    // T19: el autor viene de la cuenta elegida (id_token), no de la config.
+    obtenerCorreo: vi.fn(() => AUTOR),
     descartarToken: vi.fn(),
     append: vi.fn(async () => {}),
     batchUpdate: vi.fn(async () => {}),
@@ -30,7 +32,6 @@ async function nuevoGuardado(overrides = {}) {
 function conGuardado(g, extra = {}) {
   return g.modulo.guardarFicha({
     datos: datosValidos(),
-    autor: AUTOR,
     generar: () => 1728000000000,
     ahora: () => new Date("2026-10-11T22:00:00Z"), // 19:00 en Buenos Aires
     ...g.deps,
@@ -150,6 +151,39 @@ describe("guardarFicha: rechazos (RF-11, RF-19)", () => {
     expect(resultado.estado).toBe("cancelado");
     expect(g.deps.append).not.toHaveBeenCalled();
     expect(g.deps.batchUpdate).not.toHaveBeenCalled();
+  });
+
+  it("con identificación pero sin correo de la cuenta → 'sin-correo' y no registra (T19)", async () => {
+    const g = await nuevoGuardado({ obtenerCorreo: vi.fn(() => null) });
+
+    const resultado = await conGuardado(g);
+
+    expect(resultado.estado).toBe("sin-correo");
+    expect(g.deps.append).not.toHaveBeenCalled();
+    expect(g.deps.batchUpdate).not.toHaveBeenCalled();
+  });
+
+  it("tras el reintento de 401, si la re-identificación no da correo tampoco registra (T19)", async () => {
+    const vencido = Object.assign(new Error("Tu identificación venció."), {
+      codigo: "no-autenticado",
+    });
+    let primero = true;
+    const append = vi.fn(async () => {
+      if (primero) {
+        primero = false;
+        throw vencido;
+      }
+    });
+    const obtenerCorreo = vi
+      .fn()
+      .mockReturnValueOnce(AUTOR)
+      .mockReturnValueOnce(null);
+    const g = await nuevoGuardado({ append, obtenerCorreo });
+
+    const resultado = await conGuardado(g);
+
+    expect(resultado.estado).toBe("sin-correo");
+    expect(append).toHaveBeenCalledOnce();
   });
 });
 
