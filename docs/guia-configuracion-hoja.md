@@ -1,62 +1,58 @@
-# Guía: configuración de la hoja de fichas
+# Guía: configuración de la app y tu planilla
 
-Esta guía prepara **una sola vez** la planilla de Google y los datos de la app.
-Usá siempre tus propios datos; los ejemplos de este documento son ficticios
-("Bodega Ejemplo", `dueno@ejemplo.test`).
+Esta guía se hace **una sola vez**. Usá siempre tus propios datos; los ejemplos de
+este documento son ficticios ("Bodega Ejemplo", `dueno@ejemplo.test`).
 
-## 1. Crear la planilla
+## 1. Tu planilla `FichaCataWeb`: la crea la app sola
 
-1. Andá a [Google Drive](https://drive.google.com) con **tu cuenta** (la del dueño).
-2. **Nuevo → Google Sheets** y ponele un título, por ejemplo `Fichas de Cata Ejemplo`.
-3. Renombrá la hoja (pestaña abajo a la izquierda) a exactamente: `Fichas`.
+No tenés que crear nada a mano. En tu **primer guardado**, la app:
 
-## 2. Encabezados (fila 1, en este orden exacto)
+1. busca en tu Google Drive una planilla llamada exactamente **`FichaCataWeb`**;
+2. si no existe, **la crea** y escribe sola los encabezados de la fila 1;
+3. recuerda el ID de esa planilla en ese navegador para las próximas veces.
 
-Tipeá en la celda **A1** la siguiente fila completa (una sola línea, tal cual).
-La app verifica estos encabezados antes de leer y, si no coinciden, informa el error
-**sin escribir nada** en la hoja:
+Si usás otra computadora o navegador, con identificarte basta: la app vuelve a
+encontrar tu `FichaCataWeb` por nombre en tu Drive (por eso el permiso de Google
+pide "administrar archivos de Google Drive": solo alcanza a ver los archivos que
+crea esta app).
+
+La fila 1 que la app escribe es esta (la dejamos como referencia; si algún día la
+editás a mano y se rompe, la app avisa **sin escribir nada**):
 
 ```
 id, bodega, linea, pais, provincia, zona, tipo, tono_matiz, intensidad_color, vivacidad_brillo, limpieza_transparencia, evolucion_color, limpieza_franqueza, defecto, expresion_intensidad, equilibrio, notas_aromaticas, dulzor, acidez, taninos_cantidad, taninos_calidad, alcohol_percepcion, cuerpo, entrada, evolucion_boca, aromas_boca, impresion_final, postgusto, apreciacion, composicion, cosecha, graduacion, autor, fecha_creacion, fecha_modificacion
 ```
 
-- Dejá las celdas de la fila 1 **tal cual**: sin mayúsculas de más, sin espacios
-  al final y sin filas encima.
 - Cada ficha ocupa **una fila** desde la fila 2; la app escribe sola.
+- Cada fila queda firmada con **la cuenta con la que te identificaste** (columna
+  `autor`) — no hay que configurar ningún correo.
 
-## 3. Compartirla solo con tu cuenta
+## 2. Compartirla solo con tu cuenta
 
-1. **Compartir → Agregar personas**: no agregues a nadie.
-2. En **Configuración de acceso** (engranaje), dejá **Restringido**: solo las
-   personas que agregaste (es decir, solo vos) pueden abrir la planilla.
-3. **Nunca** actives "Cualquier persona con el enlace": eso abriría las fichas a
+1. Cuando la app cree la planilla, abrila en tu Drive y revisá **Configuración de
+   acceso** (engranaje): debe decir **Restringido** (solo vos).
+2. **Nunca** actives "Cualquier persona con el enlace": eso abriría las fichas a
    terceros (RNF-1).
+3. Si un día detectás que otra cuenta tiene acceso, sacala de inmediato.
 
-Si un día detectás que otra cuenta tiene acceso, sacala de inmediato.
+## 3. Configurar la app (`js/config.js`)
 
-## 4. Configurar la app (`js/config.js`)
+Abrí `js/config.js` y reemplazá el único placeholder:
 
-Abrí `js/config.js` y reemplazá los dos placeholders:
+| Placeholder            | Qué va                 | Cómo se consigue     |
+| ---------------------- | ---------------------- | -------------------- |
+| `REEMPLAZAR_CLIENT_ID` | El Client ID de Google | Se crea en el paso 4 |
 
-| Placeholder              | Qué va                 | Cómo se consigue                                                  |
-| ------------------------ | ---------------------- | ----------------------------------------------------------------- |
-| `REEMPLAZAR_ID_PLANILLA` | El ID de tu planilla   | En la URL: `docs.google.com/spreadsheets/d/`**ESTE_TEXTO**`/edit` |
-| `REEMPLAZAR_CLIENT_ID`   | El Client ID de Google | Se crea en el paso 5                                              |
+Es un valor **público por diseño**: la app no tiene secretos ni archivos `.env`. La
+protección real es que la planilla esté compartida solo con vos y que Google pida
+identificarse al guardar.
 
-La hoja (`hoja: "Fichas"`) ya está bien por defecto. **No hay que configurar ningún
-correo**: al identificarte, la app usa la cuenta que elegís en el selector de Google
-y ese correo queda en la columna `autor` de cada ficha.
-
-> Estos dos valores (Client ID e ID de planilla) son **públicos por diseño**: la
-> app no tiene secretos ni archivos `.env`. La protección real es que la planilla
-> esté compartida solo con vos y que Google pida identificarse al guardar.
-
-## 5. Google Cloud: habilitar las APIs y crear el Client ID
+## 4. Google Cloud: habilitar las APIs y crear el Client ID
 
 1. Andá a [Google Cloud Console](https://console.cloud.google.com) con tu cuenta.
 2. **Crear proyecto** (por ejemplo `ficha-de-cata-ejemplo`).
-3. **APIs y servicios → Biblioteca**: habilitá **Google Sheets API** y
-   **Google Identity Services**.
+3. **APIs y servicios → Biblioteca**: habilitá **Google Sheets API**,
+   **Google Drive API** e **Google Identity Services**.
 4. **APIs y servicios → Pantalla de consentimiento OAuth**:
    - Usuario tipo: **Externo**; rellená nombre y correo de contacto (cualquier
      correo propio, por ejemplo `dueno@ejemplo.test` en pruebas).
@@ -73,15 +69,16 @@ y ese correo queda en la columna `autor` de cada ficha.
 No hace falta configurar la **URL de redirección**: la app usa el popup de Google
 y no tiene backend.
 
-## 6. Verificación
+## 5. Verificación
 
-1. Abrí la app (ver `guia-despliegue.md`), andá a **Buscar fichas** y escribí
-   cualquier término.
-2. Si todo está bien, te pide identificarte y después responde con tus fichas
-   (o "Sin resultados para …" si todavía no hay ninguna).
-3. Si la fila 1 no coincide con la del paso 2, verás:
-   **"La planilla no tiene los encabezados esperados. Revisá la guía de
-   configuración."** — corregí la fila 1 y recargá.
-4. Guardá una ficha de prueba (por ejemplo `Bodega Ejemplo`, `Línea Prueba
-Malbec`) y comprobá que aparece como fila nueva en la hoja con tu correo en la
-   columna `autor`.
+1. Abrí la app (ver `guia-despliegue.md`), completá los campos obligatorios de una
+   ficha de prueba (por ejemplo `Bodega Ejemplo`, `Línea Prueba Malbec`) y
+   **Guardá**.
+2. Te pide identificarte con tu cuenta de Google y, tras el primer guardado,
+   aparece `FichaCataWeb` en tu Drive con la ficha como fila nueva y tu correo en
+   la columna `autor`.
+3. Andá a **Buscar fichas** y escribí `ejemp`: debe encontrar la ficha creada.
+4. Si algún día la fila 1 de la planilla no coincide con la referencia del paso 1,
+   verás: **"La planilla no tiene los encabezados esperados. Revisá la guía de
+   configuración."** — corregí la fila 1 (o borrá la planilla para que la app cree
+   una nueva) y recargá.

@@ -44,8 +44,15 @@ let configuracion = null;
 let cache = null; // { filas: [{ numeroFila, celdas }] } en memoria de la página
 let precargaEnCurso = null; // "Cargando…" único: una sola llamada concurrente
 
-export function configurarSheets({ spreadsheetId, obtenerToken }) {
-  configuracion = { spreadsheetId, obtenerToken };
+// T20: el ID de la planilla ya no se configura; se resuelve con planilla.js —
+// `obtenerIdPlanilla` crea si no existe (guardar), `buscarIdPlanilla` solo localiza
+// (precarga de la búsqueda: no crea planillas vacías).
+export function configurarSheets({
+  obtenerIdPlanilla,
+  buscarIdPlanilla,
+  obtenerToken,
+}) {
+  configuracion = { obtenerIdPlanilla, buscarIdPlanilla, obtenerToken };
   cache = null;
 }
 
@@ -57,14 +64,14 @@ export function hayCache() {
   return cache !== null;
 }
 
-async function pedir(ruta, opciones = {}) {
+async function pedir(idPlanilla, ruta, opciones = {}) {
   if (!configuracion) {
     throw fallo("no-disponible");
   }
   const token = await configuracion.obtenerToken();
   let respuesta;
   try {
-    respuesta = await fetch(`${BASE}/${configuracion.spreadsheetId}/${ruta}`, {
+    respuesta = await fetch(`${BASE}/${idPlanilla}/${ruta}`, {
       ...opciones,
       headers: {
         Authorization: `Bearer ${token}`,
@@ -80,8 +87,31 @@ async function pedir(ruta, opciones = {}) {
   return respuesta;
 }
 
+// Escrituras y ediciones: aquí sí hace falta que la planilla exista (la crea T20).
+async function idParaEscribir() {
+  if (!configuracion) {
+    throw fallo("no-disponible");
+  }
+  const id = await configuracion.obtenerIdPlanilla();
+  if (!id) {
+    throw fallo("no-disponible");
+  }
+  return id;
+}
+
 async function realizarPrecarga() {
-  const respuesta = await pedir(`values:batchGet?ranges=${RANGO_HOJA}`);
+  if (!configuracion) {
+    throw fallo("no-disponible");
+  }
+  const idPlanilla = await configuracion.buscarIdPlanilla();
+  if (!idPlanilla) {
+    // T20: todavía no hay planilla creada → no hay fichas, sin red y sin error.
+    return [];
+  }
+  const respuesta = await pedir(
+    idPlanilla,
+    `values:batchGet?ranges=${RANGO_HOJA}`,
+  );
   const datos = await respuesta.json().catch(() => null);
   const valores = datos?.valueRanges?.[0]?.values ?? [];
   const [encabezados = [], ...filas] = valores;
@@ -130,6 +160,7 @@ export function filaDeId(id) {
 
 export async function append(celdas) {
   await pedir(
+    await idParaEscribir(),
     `values/A:Z:append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS`,
     {
       method: "POST",
@@ -145,7 +176,7 @@ export async function batchUpdate(id, celdas) {
     throw fallo("no-encontrada");
   }
   const rango = `A${numeroFila}:AZ${numeroFila}`;
-  await pedir(`values:batchUpdate`, {
+  await pedir(await idParaEscribir(), `values:batchUpdate`, {
     method: "POST",
     body: JSON.stringify({
       valueInputOption: "USER_ENTERED",

@@ -251,7 +251,7 @@
   - ✔ 2026-10-13: 141 unitarios (5 nuevos en `auth.test.js`, 2 en
     `guardado.test.js`) + 24 E2E + lint en verde; dobles de `id_token` centralizados
     en `e2e/dobles.js`; guía y skill actualizadas.
-- [ ] **T20. Planilla `FichaCataWeb` autogestionada (sin `idPlanilla` en config).** Si
+- [x] **T20. Planilla `FichaCataWeb` autogestionada (sin `idPlanilla` en config).** Si
   no hay ID en el navegador, la app busca en el Drive de la cuenta una planilla
   llamada `FichaCataWeb`; si no existe, la crea y escribe sola los 35 encabezados; el
   ID se recuerda en localStorage (dato no sensible: el acceso lo protege Google).
@@ -262,6 +262,11 @@
   - Hecho cuando: `planilla.js` busca/crea/recorda con un solo fetch concurrente,
     `config.js` solo tiene Client ID, hay unitarios + un E2E de primera guardada y
     los checks de cierre están en verde.
+  - ✔ 2026-10-14: 150 unitarios (8 nuevos en `planilla.test.js`, 1 en
+    `sheets.test.js`, 1 en `documentacion.test.js`) + 27 E2E (3 nuevos en
+    `planilla.spec.js`) + lint en verde; guía reescrita (la app crea la planilla);
+    `js/planilla.js` nuevo con un solo buscar/crear concurrente y ID recordado en
+    el navegador.
 
 ## Trazabilidad RF/RNF → tareas
 

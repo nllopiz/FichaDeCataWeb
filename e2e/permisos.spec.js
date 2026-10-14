@@ -32,6 +32,8 @@ async function prepararPagina(page, opciones = {}) {
   await page.route("https://accounts.google.com/**", (ruta) => ruta.abort());
   await page.addInitScript(
     ({ cancelar, intruso, tokenDueno, tokenIntruso, idDueno, idIntruso }) => {
+      // T20: con el ID ya en el navegador, el flujo de buscar/crear no hace falta.
+      localStorage.setItem("ficha:id-planilla", "PLANILLA_E2E");
       window.google = {
         accounts: {
           oauth2: {

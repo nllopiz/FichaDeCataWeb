@@ -8,6 +8,8 @@ async function prepararPagina(page, { tokenAutomatico = false } = {}) {
   await page.route("https://accounts.google.com/**", (ruta) => ruta.abort());
   await page.addInitScript(
     ({ auto, idToken }) => {
+      // T20: con el ID ya en el navegador, el flujo de buscar/crear no hace falta.
+      localStorage.setItem("ficha:id-planilla", "PLANILLA_E2E");
       window.__solicitudesToken = 0;
       window.__callbackGIS = null;
       window.__errorGIS = null;

@@ -20,6 +20,8 @@ async function prepararPagina(page, filas) {
   const hoja = { filas: filas.map(serializarFila) };
   await page.route("https://accounts.google.com/**", (ruta) => ruta.abort());
   await page.addInitScript((idToken) => {
+    // T20: con el ID ya en el navegador, el flujo de buscar/crear no hace falta.
+    localStorage.setItem("ficha:id-planilla", "PLANILLA_E2E");
     window.google = {
       accounts: {
         oauth2: {

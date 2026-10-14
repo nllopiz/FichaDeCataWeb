@@ -17,6 +17,7 @@ import {
   CLAVE_NUEVA,
 } from "./borrador.js";
 import * as sheets from "./sheets.js";
+import * as planilla from "./planilla.js";
 
 const form = document.querySelector("#form-ficha");
 const botonGuardar = document.querySelector("#guardar");
@@ -32,7 +33,14 @@ let fechaCreacionPrevia = null;
 
 if (form) {
   montarFormulario(form);
-  sheets.configurarSheets({ spreadsheetId: CONFIG.idPlanilla, obtenerToken });
+  // T20: la planilla FichaCataWeb se busca o crea sola desde la cuenta del dueño;
+  // el ID queda en el navegador. Guardar crea si no existe; buscar solo localiza.
+  sheets.configurarSheets({
+    obtenerIdPlanilla: () => planilla.asegurarPlanilla({ obtenerToken }),
+    buscarIdPlanilla: () =>
+      planilla.asegurarPlanilla({ obtenerToken, crear: false }),
+    obtenerToken,
+  });
 
   // Navegación entre vistas.
   for (const boton of document.querySelectorAll("[data-ir]")) {
@@ -85,6 +93,10 @@ if (form) {
     estadoGuardado.textContent = "";
     try {
       asegurarIdentificacion();
+      if (!planilla.hayIdEnNavegador()) {
+        // T20: la primera vez la app prepara la planilla FichaCataWeb en segundos.
+        estadoGuardado.textContent = "Preparando tu planilla…";
+      }
       const resultado = await guardarFicha({
         datos: leerFicha(form),
         idExistente: idEnEdicion,

@@ -12,6 +12,15 @@ const RUTAS = {
 const leer = (clave) => readFileSync(RUTAS[clave], "utf8");
 
 describe("T17: guías del Solicitante", () => {
+  it("la guía de hoja explica que la app busca o crea la planilla FichaCataWeb (T20)", () => {
+    const hoja = leer("hoja");
+    expect(hoja).toMatch(/FichaCataWeb/);
+    expect(hoja).toMatch(/crea/);
+    // Ya no se pide configurar el ID de la planilla ni el correo.
+    expect(hoja).not.toMatch(/REEMPLAZAR_ID_PLANILLA/);
+    expect(hoja).not.toMatch(/REEMPLAZAR_CORREO_DUENO/);
+  });
+
   it("las tres guías existen", () => {
     for (const ruta of Object.values(RUTAS)) {
       expect(existsSync(ruta), `falta ${ruta}`).toBe(true);

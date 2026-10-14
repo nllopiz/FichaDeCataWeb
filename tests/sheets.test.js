@@ -39,11 +39,13 @@ async function nuevoSheets() {
   return import("../js/sheets.js");
 }
 
-async function sheetsConfigurado() {
+async function sheetsConfigurado(overrides = {}) {
   const sheets = await nuevoSheets();
   sheets.configurarSheets({
-    spreadsheetId: ID_PLANILLA,
+    obtenerIdPlanilla: async () => ID_PLANILLA,
+    buscarIdPlanilla: async () => ID_PLANILLA,
     obtenerToken: async () => TOKEN,
+    ...overrides,
   });
   return sheets;
 }
@@ -54,6 +56,18 @@ beforeEach(() => {
 });
 
 describe("precargar: batchGet único y caché (RNF-3)", () => {
+  it("si aún no existe la planilla, la precarga devuelve lista vacía sin tocar la red (T20)", async () => {
+    const sheets = await sheetsConfigurado({
+      buscarIdPlanilla: async () => null,
+    });
+
+    const fichas = await sheets.precargar();
+
+    expect(fichas).toEqual([]);
+    expect(sheets.hayCache()).toBe(false);
+    expect(globalThis.fetch).not.toHaveBeenCalled();
+  });
+
   it("lee toda la hoja con una sola llamada y cachea el resultado", async () => {
     globalThis.fetch.mockResolvedValue(respuestaOk(hojaCon([fichaBase()])));
     const sheets = await sheetsConfigurado();

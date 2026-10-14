@@ -19,13 +19,14 @@ en módulos ES. Node solo como herramienta de desarrollo (devDependencies).
 |---|---|
 | `index.html` | Shell de la app: vista carga, vista búsqueda, vista edición; cambio de vista mostrando/ocultando secciones (sin framework) |
 | `css/estilos.css` | Ajustes propios sobre Bootstrap: contraste AA, foco visible, formulario largo por secciones en móvil |
-| `js/config.js` | Valores **públicos**: client ID de Google e ID de la planilla. Sin secretos |
+| `js/config.js` | Valor **público**: client ID de Google (T19/T20: la planilla y el correo se resuelven solos). Sin secretos |
 | `js/catalogos.js` | Catálogos cerrados: campos de RF-9, tono por tipo (RF-12), espumante (RF-16), descriptores dos niveles (RF-13) |
 | `js/validaciones.js` | Reglas de guardado: obligatorios (RF-3), opcionales (RF-4), suma 100 (RF-14), motivos exactos (RF-11) |
 | `js/normalizacion.js` | Normalización de texto (minúsculas, sin acentos) para búsqueda (RF-7) y saneado anti-fórmula para escritura |
 | `js/borrador.js` | Borrador en localStorage: persistir, recuperar, borrar; claves `"nueva"` o `id` de la ficha (RF-6) |
-| `js/auth.js` | Google Identity Services: token client, scope mínimo, token **solo en memoria** (RF-18/19, RNF-1) |
+| `js/auth.js` | Google Identity Services: token client, scopes Sheets + `openid email` (correo de la cuenta elegida → `autor`, T19), token **solo en memoria** (RF-18/19, RNF-1) |
 | `js/sheets.js` | Cliente REST Sheets v4: `batchGet`, `append`, `batchUpdate`; caché de la hoja en memoria; errores 401/403/429/5xx (RF-2/8/15, RNF-2/3) |
+| `js/planilla.js` | Planilla autogestionada (T20): busca `FichaCataWeb` en el Drive de la cuenta (scope `drive.file`), la crea con los 35 encabezados si no existe y recuerda el ID en el navegador |
 | `js/formulario.js` | Formulario: desplegables dependientes (RF-12/16), multiselección dos niveles (RF-13), composición de cepas (RF-14) |
 | `js/guardado.js` | Orquestación del guardado: bloqueo de doble toque (RF-5), flujo de identificación (RF-17/18/19), auditoría (RNF-2) |
 | `js/busqueda.js` | Búsqueda sobre la caché (RF-7), mensaje sin resultados (RF-10), apertura para editar (RF-8) |
@@ -33,7 +34,7 @@ en módulos ES. Node solo como herramienta de desarrollo (devDependencies).
 | `js/app.js` | Arranque: inicializar GIS, **precargar la hoja en segundo plano**, cablear vistas |
 | `tests/*.test.js` | Unitarios Vitest (sección 8) |
 | `e2e/*.spec.js` | E2E Playwright (sección 8) |
-| `docs/guia-configuracion-hoja.md` | Crear la planilla con sus encabezados y compartirla **solo** con la cuenta del dueño (RNF-1) |
+| `docs/guia-configuracion-hoja.md` | La app crea/busca sola la planilla `FichaCataWeb`; la guía cubre el Client ID y los permisos **solo** con la cuenta del dueño (RNF-1, RNF-4) |
 | `docs/guia-despliegue.md` | Publicar en GitHub Pages paso a paso, para una persona no técnica |
 | `docs/guia-uso.md` | Uso diario + caveat: en modo "Probando" Google pide re-autorizarse cada 7 días |
 | `package.json`, `eslint.config.js`, `playwright.config.js` | Herramientas de desarrollo (`npm test`, `npm run test:e2e`, `npm run lint`, `npm run dev`); no forman parte de la app publicada |
@@ -62,8 +63,8 @@ ficha** (decisión del Solicitante). Columnas (fila 1 = encabezados, en orden):
   composición en formato `varietal:porcentaje; ...` (RF-1/RF-14).
 - Auditoría (RNF-2): `autor` = mail de la cuenta identificada; `fecha_creacion` y
   `fecha_modificacion` escritas por la app en `dd/mm/aaaa HH:mm` (Buenos Aires).
-- **Sin migraciones de esquema**: la guía de configuración crea la hoja con los
-  encabezados; la app valida el encabezado en el primer `batchGet` y, si no coincide,
+- **Sin migraciones de esquema**: la app crea la hoja `FichaCataWeb` con los
+  encabezados (T20) y valida el encabezado en el primer `batchGet` y, si no coincide,
   informa con mensaje claro **sin escribir**.
 - Ficha identificada por su **`id`** (timestamp de creación); la caché conoce también el
   número de fila para escribir. Borrar fichas: fuera de alcance v1 (no hay endpoint de
@@ -166,7 +167,9 @@ al crear un formulario nuevo deliberado ("Nueva ficha"): borrar_borrador("nueva"
   elegida → columna `autor`, T19) + `spreadsheets`; el token vive
   **solo en memoria** (nunca localStorage/URL/logs); 401 → borrar token, re-identificar,
   reintentar una vez; cancelar → RF-19 (no se registra).
-- **Credenciales**: client ID e ID de hoja en `config.js` (públicos por diseño); **cero
+- **Credenciales**: solo el client ID en `config.js` (público por diseño); la planilla
+  se busca/crea desde la cuenta del dueño (`drive.file`) y su ID vive en el navegador
+  (T20); **cero
   secretos** en el repo ni en el frontend; sin .env en la app.
 - **Hoja privada**: compartida solo con el dueño (guía); 403 → mensaje claro "no tenés
   acceso a esta planilla", sin stack traces (CA-8); un tercero con el enlace no accede.
@@ -195,7 +198,7 @@ contradicciones), el plan decide:
 | Ficha identificada por **columna `id`** (timestamp de creación) | Número de fila como identificador | El número de fila cambia si el dueño ordena o filtra la hoja a mano y editar podría sobrescribir la ficha equivocada; con `id` la edición es inmune (confirmado por el Responsable técnico, grill-me p. 2) |
 | **Precarga** de la hoja en segundo plano al abrir | Lectura perezosa al primer buscar; refresco periódico | Primera experiencia sin espera en la búsqueda; sin llamadas extra periódicas (grill-me p. 3) |
 | CA-17 (disponibilidad 99%) **sin medición formal** en la v1 | Monitoreo externo gratuito (p. ej. UptimeRobot) | Aceptado por el Responsable técnico (grill-me p. 5): no hay backend propio que monitorear y sumaría una cuenta; la disponibilidad es la de GitHub Pages + Google |
-| Configuración de la hoja **por guía manual** | App que crea la planilla | Crear hojas exigiría scope de Drive: más permisos de los necesarios (scope mínimo) |
+| Planilla creada y encabezados escritos **por la app** (`FichaCataWeb`, scope `drive.file`) — T20, aprobada 2026-10-13 | Guía manual con los 35 encabezados (decisión original por el scope de Drive) | El Solicitante prioriza cero pasos manuales; `drive.file` solo ve los archivos de la app: scope mínimo aceptable y justificado |
 | GIS en **popup** | Redirect de página completa | No interrumpe la carga del formulario (RF-17) |
 
 ## 8. Estrategia de tests
