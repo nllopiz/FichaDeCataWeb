@@ -31,7 +31,7 @@ No hay build: lo que está en la rama `main` es lo que se publica.
 
 1. Agregá el origen de la página en **Google Cloud → Credenciales → ID de cliente
    OAuth → Orígenes JavaScript autorizados**:
-   `https://TU-USUARIO.github.io` (ver `guia-configuracion-hoja.md`, paso 5).
+   `https://TU-USUARIO.github.io` (ver `guia-configuracion-hoja.md`, paso 4).
    Sin ese paso, guardar desde la página publicada da error de identificación.
 2. Verificá el flujo completo: cargar → guardar (con popup de Google) → buscar →
    editar.
@@ -43,10 +43,11 @@ No hay build: lo que está en la rama `main` es lo que se publica.
 2. GitHub Pages vuelve a publicar solo; esperá unos segundos y recargá con
    `Ctrl+F5`.
 
-## 5. Recuerdos de seguridad
+## 5. Recordatorios de seguridad
 
-- No existen `.env` ni claves en el repo: `js/config.js` lleva valores públicos
-  por diseño (Client ID e ID de planilla).
+- No existen `.env` ni claves en el repo: `js/config.js` solo lleva el Client ID,
+  que es público por diseño. La planilla `FichaCataWeb` la busca o crea la app y su
+  ID queda en el navegador.
 - Nunca cambies el acceso de la planilla a "cualquiera con el enlace"
   (`guia-configuracion-hoja.md`, paso 3).
 - Cualquier duda que implique secretos o backend: escalar al Responsable técnico

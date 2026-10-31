@@ -7,6 +7,7 @@ const RUTAS = {
   hoja: "docs/guia-configuracion-hoja.md",
   despliegue: "docs/guia-despliegue.md",
   uso: "docs/guia-uso.md",
+  checklist: "docs/checklist-entrega.md",
 };
 
 const leer = (clave) => readFileSync(RUTAS[clave], "utf8");
@@ -21,7 +22,7 @@ describe("T17: guías del Solicitante", () => {
     expect(hoja).not.toMatch(/REEMPLAZAR_CORREO_DUENO/);
   });
 
-  it("las tres guías existen", () => {
+  it("las guías y el checklist de entrega existen", () => {
     for (const ruta of Object.values(RUTAS)) {
       expect(existsSync(ruta), `falta ${ruta}`).toBe(true);
     }
@@ -57,5 +58,39 @@ describe("T17: guías del Solicitante", () => {
 
   it("la guía de despliegue cubre GitHub Pages", () => {
     expect(leer("despliegue")).toMatch(/GitHub Pages/);
+  });
+
+  it("el checklist de entrega cubre los pendientes reales", () => {
+    const checklist = leer("checklist");
+    expect(checklist).toMatch(/REEMPLAZAR_CLIENT_ID/);
+    expect(checklist).toMatch(/js\/config\.js/);
+    expect(checklist).toMatch(/guardado real/);
+    expect(checklist).toMatch(/GitHub Pages/);
+    expect(checklist).toMatch(/CA-17/);
+    expect(checklist).toMatch(/Restringido/);
+  });
+});
+
+// T21: la documentación del proyecto refleja el MVP terminado.
+describe("T21: documentación del proyecto al día", () => {
+  const agents = readFileSync("AGENTS.md", "utf8");
+  const changelog = readFileSync("CHANGELOG.md", "utf8");
+  const version = readFileSync("VERSION", "utf8").trim();
+  const paquete = JSON.parse(readFileSync("package.json", "utf8"));
+
+  it("AGENTS.md refleja la Etapa 6 y el código ya implementado", () => {
+    expect(agents).toMatch(/Etapa 6/);
+    expect(agents).not.toMatch(/aún no tiene código/);
+    expect(agents).not.toMatch(/se crearán al implementar/);
+  });
+
+  it("CHANGELOG.md describe el MVP de FichaDeCataWeb", () => {
+    expect(changelog).toMatch(/FichaDeCataWeb/);
+    expect(changelog).toMatch(/## 1\.0/);
+    expect(changelog).not.toMatch(/Django/);
+  });
+
+  it("la versión de package.json coincide con VERSION", () => {
+    expect(paquete.version).toBe(`${version}.0`);
   });
 });

@@ -268,6 +268,16 @@
     `js/planilla.js` nuevo con un solo buscar/crear concurrente y ID recordado en
     el navegador.
 
+## Mantenimiento post-MVP (2026-10-31)
+
+- [x] **T21. Documentación al día y checklist de entrega.** `AGENTS.md` en Etapa 6,
+  `CHANGELOG.md` con el MVP 1.0, `package.json` alineado a `VERSION` (1.0.0) y
+  `docs/checklist-entrega.md` con Client ID real, prueba de guardado real, publicación
+  en GitHub Pages y CA-17. Sin cambios de código.
+  - Hecho cuando: tests de documentación en verde y los tres checks de cierre pasan.
+  - ✔ 2026-10-31: 154 unitarios + 27 E2E + lint en verde; verificado por
+    `tests/documentacion.test.js`.
+
 ## Trazabilidad RF/RNF → tareas
 
 | Requisito | Tarea(s) |

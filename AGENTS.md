@@ -11,7 +11,7 @@
 - Una tarea por vez. Tests primero. Detente al terminar.
 - Responde en español.
 
-## Proyecto (completada en la Etapa 5 · 2026-10-11)
+## Proyecto (MVP completo · Etapa 6 · aceptado 2026-10-13)
 - Nombre y propósito: **FichaDeCataWeb** — reemplazar las fichas de cata en papel de un
   curso de asesor en vinos por una ficha web: carga rápida con desplegables, edición,
   búsqueda por bodega y por línea, y acceso privado. Spec: `specs/001-mvp/spec.md` (19 RF,
@@ -20,16 +20,19 @@
   puro, **sin backend**; Google Sheets API v4 como almacén (una fila por ficha, campos
   múltiples con ";"); Google Identity Services (OAuth, token solo en memoria) al guardar;
   hosting estático (GitHub Pages / Netlify / Vercel); Vitest + Playwright + ESLint/Prettier.
-- Comandos de arranque, tests, lint y checks de cierre (se crearán al implementar; el
-  repo aún no tiene código):
-  - `npm run dev` — servidor estático de desarrollo.
-  - `npm test` — unitarios con Vitest (lógica pura: validaciones, catálogos, doble
-    guardado, gana el último, normalización de búsqueda).
-  - `npm run test:e2e` — Playwright E2E con GIS y Sheets simulados (route stub); nunca
-    una planilla real.
+- Estado y comandos (T1–T21 completas; los tres checks en verde):
+  - `npm run dev` — servidor estático de desarrollo en http://localhost:4173.
+  - `npm test` — 154 unitarios con Vitest (validaciones, catálogos, serialización,
+    borrador, auth, Sheets, planilla, búsqueda y documentación).
+  - `npm run test:e2e` — 27 E2E con Playwright; GIS y Sheets simulados (route stub),
+    nunca una planilla real.
   - `npm run lint` — ESLint + Prettier.
   - Check de cierre de tarea: `npm test` + `npm run lint` + `npm run test:e2e` en verde,
     sin tests pendientes ni skipped.
+- Entrega: pendiente único la prueba de guardado real con la planilla del dueño y la
+  publicación; pasos en `docs/checklist-entrega.md`. `js/config.js` conserva el
+  placeholder público `REEMPLAZAR_CLIENT_ID` hasta la entrega. No se agregan requisitos
+  fuera de la spec sin aprobación.
 - Roles y autenticación, y categorías de datos (ver skill datos-sensibles): un único rol
   **Propietario** (el usuario del curso), identificado con su cuenta de Google **al
   guardar** (RF-17/18/19); sin identificar se carga pero no se registra. Datos manejados:
