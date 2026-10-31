@@ -20,6 +20,7 @@ Proyecto: FichaDeCataWeb (ficha de cata web, MVP en specs/001-mvp)
 - 2026-10-11 a 2026-10-13 · Spec 001-mvp · Fase Implementación (T1-T18) · Responsable técnico (aprobación explícita por commit, sin push): 18 commits `32279f7`…`39b099d` + T18; TDD una tarea por vez; checks de cierre en verde (`npm test` + `npm run lint` + `npm run test:e2e`).
 - 2026-10-13 · Spec 001-mvp · Cierre del MVP · Responsable técnico ("si a todo"): T18 verificada (checklist CA-1…CA-21 completo en tasks.md, 20 automáticos y CA-17 manual documentado; revisiones de seguridad sin secretos, token solo en memoria y solo datos ficticios) y **MVP aceptado**: 134 unitarios + 24 E2E + lint en verde, trazabilidad 19 RF + 7 RNF completa. Pendiente único: prueba de guardado real con la planilla del dueño (diferida a la entrega; pasos en `docs/checklist-entrega.md`).
 - 2026-10-31 · Mantenimiento documental post-MVP · Solicitante (eligió "Docs + checklist de entrega"): AGENTS.md y CHANGELOG.md puestos al día, `package.json` alineado a la versión 1.0.0 y `docs/checklist-entrega.md` nuevo; sin cambios de código ni de spec.
+- 2026-10-31 · Spec 001-mvp · T22 (selector de cuenta) · Solicitante ("ok"): `prompt: "select_account"` en el token client para que Google muestre siempre el selector de cuentas al identificarse (dentro de RF-18, sin cambio de spec); 155 unitarios + 27 E2E + lint en verde.
 
 ## Decisiones
 (resumen; el detalle está en docs/decisiones-tecnicas.md)

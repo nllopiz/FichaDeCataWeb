@@ -49,6 +49,9 @@ export function configurarAuth({ clientId }) {
   cliente = api.initTokenClient({
     client_id: clientId,
     scope: SCOPE_MINIMO,
+    // T22: aunque haya una sesión de Google activa, mostrar siempre el selector
+    // para que la persona elija con qué cuenta identificarse (dentro de RF-18).
+    prompt: "select_account",
     callback: (respuesta) => {
       if (respuesta?.access_token) {
         tokenEnMemoria = respuesta.access_token;

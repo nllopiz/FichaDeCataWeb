@@ -14,8 +14,8 @@ Usá la dirección publicada (ver `guia-despliegue.md`) o, en tu compu,
    obligatorios son **bodega, tipo, línea, composición, cosecha y graduación**.
 2. La **composición** necesita varias filas de cepas que sumen **100 %** exacto
    (el marcador de suma te avisa).
-3. Pulsá **Guardar**. Ahí —y solo ahí— Google te pide identificarte con tu cuenta
-   (un clic en el popup).
+3. Pulsá **Guardar**. Ahí —y solo ahí— Google te muestra el selector de cuentas:
+   elegí con cuál identificarte y confirmá. Esa cuenta queda registrada en `autor`.
 4. Si todo sale bien ves **"Ficha guardada."** y la hoja recibe una fila nueva.
 5. Si cancelás el popup: **no se registra nada** y lo escrito sigue en el
    formulario; podés intentar de nuevo.

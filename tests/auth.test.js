@@ -60,6 +60,16 @@ describe("configurarAuth (RF-18, skill seguridad-gis-sheets)", () => {
 
     expect(requestAccessToken).not.toHaveBeenCalled();
   });
+
+  it("fuerza el selector de cuentas de Google al identificarse (T22)", async () => {
+    instalarDobleGIS();
+    const { configurarAuth } = await nuevoAuth();
+
+    configurarAuth({ clientId: CLIENT_ID_FALSO });
+
+    // Sin esto, Google puede resolver con la sesión activa sin preguntar.
+    expect(configCliente.prompt).toBe("select_account");
+  });
 });
 
 describe("obtenerToken (RF-18)", () => {

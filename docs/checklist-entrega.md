@@ -7,7 +7,7 @@
 
 ## 0. Antes de empezar
 
-- [ ] `npm test` en verde (154 unitarios).
+- [ ] `npm test` en verde (155 unitarios).
 - [ ] `npm run lint` en verde.
 - [ ] `npm run test:e2e` en verde (27 E2E con dobles, nunca una planilla real).
 - [ ] `js/config.js` sigue con el placeholder `REEMPLAZAR_CLIENT_ID` en el repo.
