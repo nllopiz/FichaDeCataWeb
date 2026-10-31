@@ -228,7 +228,8 @@
 
   - **Sin secretos**: test automático sobre `js/*.js` e `index.html` — sin
     `client_secret`, claves privadas, API keys (`AIza…`) ni Client IDs reales;
-    `js/config.js` conserva los placeholders.
+    `js/config.js` conserva los placeholders (hasta T23, que versiona el Client ID
+    público).
   - **Token solo en memoria**: test automático — `auth.js` y `app.js` sin
     `localStorage`/`sessionStorage`/cookies/URL (ignorando comentarios) y el borrador
     descarta claves de sesión (`token`, `accessToken`) — verificado por comportamiento.
@@ -284,6 +285,13 @@
   elegida define el `autor` y el Drive que se usa.
   - Hecho cuando: unitario verifica el `prompt` y los tres checks de cierre pasan.
   - ✔ 2026-10-31: 155 unitarios + 27 E2E + lint en verde.
+
+- [x] **T23. Client ID real configurado.** `js/config.js` con el Client ID público del
+  proyecto OAuth y los orígenes `http://localhost:4173` y
+  `https://nllopiz.github.io`; sin secretos en el repo (RNF-1, RNF-4). Ajusta el test
+  de T18 para distinguir el Client ID público (permitido) de un secreto.
+  - ✔ 2026-10-31: valor público versionado; 156 unitarios + 27 E2E + lint en verde.
+    Falta el push y la prueba de guardado real con la planilla del dueño.
 
 ## Trazabilidad RF/RNF → tareas
 

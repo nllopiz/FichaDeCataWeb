@@ -112,13 +112,24 @@ describe("T18: verificación final del MVP", () => {
       ...readdirSync("js").map((archivo) => join("js", archivo)),
       "index.html",
     ];
-    const prohibido =
-      /client_secret|-----BEGIN|AIza[0-9A-Za-z_-]{35}|\d+-[\w]+\.apps\.googleusercontent\.com/;
+    // El Client ID OAuth es público por diseño (viaja al navegador); lo que
+    // nunca puede aparecer es un secreto, una clave privada o una API key.
+    const prohibido = /client_secret|-----BEGIN|AIza[0-9A-Za-z_-]{35}/;
     for (const ruta of rutas) {
       expect(leer(ruta).match(prohibido), `posible secreto en ${ruta}`).toBe(
         null,
       );
     }
+  });
+
+  it("T23: config.js lleva un Client ID público y ningún secreto", () => {
+    const config = leer("js/config.js");
+    expect(config).toMatch(
+      /clientIdGoogle:\s*"\d+-[\w-]+\.apps\.googleusercontent\.com"/,
+    );
+    expect(config).not.toMatch(
+      /client_secret|-----BEGIN|AIza[0-9A-Za-z_-]{35}/,
+    );
   });
 
   it("los tests usan solo datos ficticios (skill datos-sensibles)", () => {

@@ -62,7 +62,7 @@ describe("T17: guías del Solicitante", () => {
 
   it("el checklist de entrega cubre los pendientes reales", () => {
     const checklist = leer("checklist");
-    expect(checklist).toMatch(/REEMPLAZAR_CLIENT_ID/);
+    expect(checklist).toMatch(/Client ID público/);
     expect(checklist).toMatch(/js\/config\.js/);
     expect(checklist).toMatch(/guardado real/);
     expect(checklist).toMatch(/GitHub Pages/);

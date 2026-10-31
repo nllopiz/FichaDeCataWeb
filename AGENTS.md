@@ -20,9 +20,9 @@
   puro, **sin backend**; Google Sheets API v4 como almacén (una fila por ficha, campos
   múltiples con ";"); Google Identity Services (OAuth, token solo en memoria) al guardar;
   hosting estático (GitHub Pages / Netlify / Vercel); Vitest + Playwright + ESLint/Prettier.
-- Estado y comandos (T1–T22 completas; los tres checks en verde):
+- Estado y comandos (T1–T23 completas; los tres checks en verde):
   - `npm run dev` — servidor estático de desarrollo en http://localhost:4173.
-  - `npm test` — 155 unitarios con Vitest (validaciones, catálogos, serialización,
+  - `npm test` — 156 unitarios con Vitest (validaciones, catálogos, serialización,
     borrador, auth, Sheets, planilla, búsqueda y documentación).
   - `npm run test:e2e` — 27 E2E con Playwright; GIS y Sheets simulados (route stub),
     nunca una planilla real.

@@ -7,10 +7,11 @@
 
 ## 0. Antes de empezar
 
-- [ ] `npm test` en verde (155 unitarios).
+- [ ] `npm test` en verde (156 unitarios).
 - [ ] `npm run lint` en verde.
 - [ ] `npm run test:e2e` en verde (27 E2E con dobles, nunca una planilla real).
-- [ ] `js/config.js` sigue con el placeholder `REEMPLAZAR_CLIENT_ID` en el repo.
+- [ ] `js/config.js` contiene solo el Client ID público; no hay `client_secret`,
+      claves ni `.env`.
 
 ## 1. Client ID real (una sola vez)
 

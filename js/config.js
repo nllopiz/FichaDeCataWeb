@@ -4,5 +4,6 @@
 // que elegís en el selector de Google. Solo hace falta el Client ID —ver
 // docs/guia-configuracion-hoja.md—.
 export const CONFIG = {
-  clientIdGoogle: "REEMPLAZAR_CLIENT_ID",
+  clientIdGoogle:
+    "33189607902-5a6d506hi66vd1lh23iiq1lonu9su91c.apps.googleusercontent.com",
 };
