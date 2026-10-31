@@ -293,6 +293,12 @@
   - ✔ 2026-10-31: valor público versionado; 156 unitarios + 27 E2E + lint en verde.
     Falta el push y la prueba de guardado real con la planilla del dueño.
 
+- [x] **T24. Skill `frontend-design` instalada.** skills.sh → `anthropics/skills`
+  (Apache 2.0), para la mejora UX/UI. Revisada antes de usar: solo `SKILL.md` +
+  `LICENSE.txt`, sin scripts; registrada en AGENTS.md, MEMORY.md y
+  `docs/skills-necesarias.md`.
+  - ✔ 2026-10-31: 156 unitarios + 27 E2E + lint en verde (sin cambios de código).
+
 ## Trazabilidad RF/RNF → tareas
 
 | Requisito | Tarea(s) |

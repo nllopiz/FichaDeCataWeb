@@ -22,6 +22,7 @@ Proyecto: FichaDeCataWeb (ficha de cata web, MVP en specs/001-mvp)
 - 2026-10-31 · Mantenimiento documental post-MVP · Solicitante (eligió "Docs + checklist de entrega"): AGENTS.md y CHANGELOG.md puestos al día, `package.json` alineado a la versión 1.0.0 y `docs/checklist-entrega.md` nuevo; sin cambios de código ni de spec.
 - 2026-10-31 · Spec 001-mvp · T22 (selector de cuenta) · Solicitante ("ok"): `prompt: "select_account"` en el token client para que Google muestre siempre el selector de cuentas al identificarse (dentro de RF-18, sin cambio de spec); 155 unitarios + 27 E2E + lint en verde.
 - 2026-10-31 · Entrega · T23 (Client ID real) · Solicitante ("si"): Client ID público configurado en `js/config.js` con orígenes `http://localhost:4173` y `https://nllopiz.github.io`; test de seguridad ajustado (Client ID público ≠ secreto); falta el push y la prueba de guardado real.
+- 2026-10-31 · Skills · Solicitante (eligió "Solo frontend-design"): instalada `frontend-design` (anthropics/skills, Apache 2.0); revisada (solo `SKILL.md` + `LICENSE.txt`, sin scripts) y registrada en AGENTS.md y docs/skills-necesarias.md.
 
 ## Decisiones
 (resumen; el detalle está en docs/decisiones-tecnicas.md)
@@ -35,6 +36,7 @@ Proyecto: FichaDeCataWeb (ficha de cata web, MVP en specs/001-mvp)
 - web-design-guidelines · skills.sh → github.com/vercel-labs/agent-skills (sin licencia explícita; uso interno solo lectura) · 2026-10-11 · agente, aprobada por Responsable técnico
 - seguridad-gis-sheets · escrita por el agente (área 1 de docs/skills-necesarias.md) · 2026-10-11 · agente, aprobada por Responsable técnico
 - sheets-api-navegador · escrita por el agente (área 3 de docs/skills-necesarias.md) · 2026-10-11 · agente, aprobada por Responsable técnico
+- frontend-design · skills.sh → github.com/anthropics/skills (Apache 2.0) · 2026-10-31 · agente, aprobada por Solicitante ("Solo frontend-design")
 
 ## Sin skill
 (áreas sin skill de apoyo; rige solo la constitución)

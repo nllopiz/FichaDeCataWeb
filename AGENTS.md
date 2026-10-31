@@ -20,7 +20,7 @@
   puro, **sin backend**; Google Sheets API v4 como almacén (una fila por ficha, campos
   múltiples con ";"); Google Identity Services (OAuth, token solo en memoria) al guardar;
   hosting estático (GitHub Pages / Netlify / Vercel); Vitest + Playwright + ESLint/Prettier.
-- Estado y comandos (T1–T23 completas; los tres checks en verde):
+- Estado y comandos (T1–T24 completas; los tres checks en verde):
   - `npm run dev` — servidor estático de desarrollo en http://localhost:4173.
   - `npm test` — 156 unitarios con Vitest (validaciones, catálogos, serialización,
     borrador, auth, Sheets, planilla, búsqueda y documentación).
@@ -50,4 +50,5 @@
 - Skills instaladas: previas (sdd, sdd-init, spec-lint, grill-me, systematic-debugging,
   datos-sensibles); de catálogo 2026-10-11 (vitest, playwright-best-practices,
   accessibility, web-design-guidelines); propias 2026-10-11 (seguridad-gis-sheets,
-  sheets-api-navegador). Detalle y origen en MEMORY.md.
+  sheets-api-navegador); de catálogo 2026-10-31 (frontend-design). Detalle y origen en
+  MEMORY.md.

@@ -16,6 +16,7 @@ estático (GitHub Pages / Netlify / Vercel).
 | 3 · Sheets | `sheets-api-navegador` | escrita por el agente | propia |
 | 4 · Interfaz | `accessibility` | skills.sh → addyosmani/web-quality-skills (MIT, WCAG 2.2 ⊃ 2.1 AA) | catálogo |
 | 4 · Interfaz | `web-design-guidelines` | skills.sh → vercel-labs/agent-skills (sin licencia explícita; uso interno de solo lectura) | catálogo |
+| 4 · Interfaz | `frontend-design` | skills.sh → anthropics/skills (Apache 2.0) · agregada 2026-10-31 para la mejora UX/UI | catálogo |
 
 Sin skill específica: **Bootstrap** (se cubre con `accessibility` + conocimientos del
 Solicitante) y el **TDD loop** (obra/superpowers, descartado por redundante con el

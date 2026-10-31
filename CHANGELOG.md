@@ -4,6 +4,8 @@
 - T22: al identificarse, Google muestra siempre el selector de cuentas (`prompt:
   select_account`), para elegir con qué cuenta se guarda y se define `autor` (RF-18).
 - T23: Client ID público configurado en `js/config.js` (sin secretos en el repo).
+- Skill `frontend-design` instalada (anthropics/skills, Apache 2.0) para la mejora
+  UX/UI; revisada: solo `SKILL.md` + `LICENSE.txt`, sin scripts.
 - T21: `AGENTS.md` y este changelog actualizados, `package.json` alineado a la versión
   1.0.0 y checklist de entrega en `docs/checklist-entrega.md`. Sin cambios de código.
 - Checks: 156 unitarios + 27 E2E + lint en verde.
