@@ -35,10 +35,10 @@
   anunciados) también implementada, con la enmienda aprobada de RF-11/RNF-5. Fase 3
   (pulido de búsqueda) queda pendiente de aprobación; “Nueva ficha” aún no pide
   confirmación.
-- Entrega: `origin/main` en `98238cf` (T23/T24/T25 y docs); T26/T27 quedan en un
-  commit local pendiente de push. Pendientes la publicación y la prueba de guardado real
-  con la planilla del dueño; pasos en `docs/checklist-entrega.md`. `js/config.js` ya tiene
-  el Client ID público (T23). No se agregan requisitos fuera de la spec sin aprobación.
+- Entrega: `origin/main` en `7302795` (T26/T27); pendientes la publicación y la prueba
+  de guardado real con la planilla del dueño; pasos en `docs/checklist-entrega.md`.
+  `js/config.js` ya tiene el Client ID público (T23). No se agregan requisitos fuera de
+  la spec sin aprobación.
 - Roles y autenticación, y categorías de datos (ver skill datos-sensibles): un único rol
   **Propietario** (el usuario del curso), identificado con su cuenta de Google **al
   guardar** (RF-17/18/19); sin identificar se carga pero no se registra. Datos manejados:

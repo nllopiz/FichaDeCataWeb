@@ -39,7 +39,7 @@
 
 ## 3. Publicación en GitHub Pages
 
-- [x] `main` ya está en GitHub (push del 2026-11-01; el agente no despliega).
+- [x] `main` ya está en GitHub (push del 2026-11-01, commit `7302795`; el agente no despliega).
 - [ ] Settings → Pages → Deploy from a branch → `main` / root.
 - [x] El origen de GitHub Pages ya está autorizado en Google Cloud.
 - [ ] Repetir cargar → guardar → buscar → editar desde la URL publicada.
