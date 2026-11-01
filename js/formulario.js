@@ -99,13 +99,20 @@ function poblar(select, valores) {
 }
 
 function construirDescriptores(contenedor, nombre) {
+  const grupos = document.createElement("div");
+  grupos.className = "chip-groups";
+  contenedor.append(grupos);
+
   catalogoDescriptores().forEach(({ familia, descriptores }, fi) => {
     const grupo = document.createElement("fieldset");
-    grupo.className = "familia-descriptores";
+    grupo.className = "familia-descriptores chip-group";
     const leyenda = document.createElement("legend");
-    leyenda.className = "h6";
     leyenda.textContent = familia;
     grupo.append(leyenda);
+
+    const chips = document.createElement("div");
+    chips.className = "chips";
+    grupo.append(chips);
 
     descriptores.forEach((descriptor, di) => {
       const id = `${nombre}-${fi}-${di}`;
@@ -120,12 +127,12 @@ function construirDescriptores(contenedor, nombre) {
       label.htmlFor = id;
       label.textContent = descriptor;
       const envoltorio = document.createElement("div");
-      envoltorio.className = "form-check";
+      envoltorio.className = "form-check chip";
       envoltorio.append(checkbox, label);
-      grupo.append(envoltorio);
+      chips.append(envoltorio);
     });
 
-    contenedor.append(grupo);
+    grupos.append(grupo);
   });
 }
 
@@ -160,9 +167,39 @@ function actualizarSuma(form) {
   if (!caja) {
     return;
   }
-  const suma = sumarComposicion(leerFicha(form).composicion);
-  caja.textContent = `Suma de composición: ${suma} %`;
+  const composicion = leerFicha(form).composicion;
+  const suma = sumarComposicion(composicion);
+  caja.textContent = suma === 100 ? "100 % completa" : `Suma: ${suma} %`;
   caja.classList.toggle("incompleta", suma !== 100);
+
+  // La barra es un resumen visual de la composición; el texto del total y el
+  // aria-label siguen siendo la fuente accesible (RNF-5).
+  const barra = form.querySelector("#blend");
+  if (!barra) {
+    return;
+  }
+  barra.textContent = "";
+  for (const cepa of composicion) {
+    const porcentaje = Number(cepa.porcentaje);
+    if (!Number.isFinite(porcentaje) || porcentaje <= 0) {
+      continue;
+    }
+    const tramo = document.createElement("span");
+    tramo.style.width = `${Math.min(porcentaje, 100)}%`;
+    barra.append(tramo);
+  }
+  barra.hidden = composicion.length === 0;
+  barra.setAttribute(
+    "aria-label",
+    composicion.length === 0
+      ? "Composición vacía"
+      : `Composición: ${composicion
+          .map(
+            (cepa) =>
+              `${cepa.varietal || "Cepa"} ${cepa.porcentaje || 0} por ciento`,
+          )
+          .join(", ")}`,
+  );
 }
 
 function actualizarTono(form) {

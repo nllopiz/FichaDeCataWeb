@@ -5,7 +5,7 @@ test("el formulario de carga está disponible sin identificarse", async ({
 }) => {
   await page.goto("/");
   await expect(
-    page.getByRole("heading", { name: "Ficha de Cata Web" }),
+    page.getByRole("heading", { name: "Nueva ficha" }),
   ).toBeVisible();
   await expect(page.locator("#vista-carga")).toBeVisible();
   await expect(page.locator("#vista-busqueda")).toBeHidden();

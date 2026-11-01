@@ -20,19 +20,22 @@
   puro, **sin backend**; Google Sheets API v4 como almacén (una fila por ficha, campos
   múltiples con ";"); Google Identity Services (OAuth, token solo en memoria) al guardar;
   hosting estático (GitHub Pages / Netlify / Vercel); Vitest + Playwright + ESLint/Prettier.
-- Estado y comandos (T1–T24 completas; los tres checks en verde):
+- Estado y comandos (T1–T25 completas; los tres checks en verde):
   - `npm run dev` — servidor estático de desarrollo en http://localhost:4173.
   - `npm test` — 156 unitarios con Vitest (validaciones, catálogos, serialización,
     borrador, auth, Sheets, planilla, búsqueda y documentación).
-  - `npm run test:e2e` — 27 E2E con Playwright; GIS y Sheets simulados (route stub),
+  - `npm run test:e2e` — 32 E2E con Playwright; GIS y Sheets simulados (route stub),
     nunca una planilla real.
   - `npm run lint` — ESLint + Prettier.
   - Check de cierre de tarea: `npm test` + `npm run lint` + `npm run test:e2e` en verde,
     sin tests pendientes ni skipped.
-- Entrega: pendiente único la prueba de guardado real con la planilla del dueño y la
-  publicación; pasos en `docs/checklist-entrega.md`. `js/config.js` conserva el
-  placeholder público `REEMPLAZAR_CLIENT_ID` hasta la entrega. No se agregan requisitos
-  fuera de la spec sin aprobación.
+- UX/UI: Fase 1 (T25) implementada con la dirección “Bitácora de cata” (riel de fases,
+  tira móvil, chips, composición y aviso global de guardado). No se alteraron RF/RNF ni
+  mensajes. Fase 2 (errores inline, autenticación y estados de carga) y Fase 3 (pulido de
+  búsqueda) quedan pendientes de aprobación; “Nueva ficha” aún no pide confirmación.
+- Entrega: pendientes el push de T23/T24/T25, la publicación y la prueba de guardado real
+  con la planilla del dueño; pasos en `docs/checklist-entrega.md`. `js/config.js` ya tiene
+  el Client ID público (T23). No se agregan requisitos fuera de la spec sin aprobación.
 - Roles y autenticación, y categorías de datos (ver skill datos-sensibles): un único rol
   **Propietario** (el usuario del curso), identificado con su cuenta de Google **al
   guardar** (RF-17/18/19); sin identificar se carga pero no se registra. Datos manejados:

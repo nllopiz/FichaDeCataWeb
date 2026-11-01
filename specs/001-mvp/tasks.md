@@ -269,7 +269,7 @@
     `js/planilla.js` nuevo con un solo buscar/crear concurrente y ID recordado en
     el navegador.
 
-## Mantenimiento y ajustes post-MVP (2026-10-31)
+## Mantenimiento y ajustes post-MVP (2026-10-31 a 2026-11-01)
 
 - [x] **T21. Documentación al día y checklist de entrega.** `AGENTS.md` en Etapa 6,
   `CHANGELOG.md` con el MVP 1.0, `package.json` alineado a `VERSION` (1.0.0) y
@@ -299,6 +299,27 @@
   `docs/skills-necesarias.md`.
   - ✔ 2026-10-31: 156 unitarios + 27 E2E + lint en verde (sin cambios de código).
 
+- [x] **T25. Rediseño UX/UI, Fase 1: identidad y estructura.** Dirección visual
+  “Bitácora de cata” (base gris verdosa, tinta, vino como acento, oliva para el
+  borrador, serif en la marca y las cosechas). Sin cambios de RF/RNF: se conservan
+  IDs, etiquetas, mensajes exactos y comportamiento.
+  - Alcance: barra superior con marca y pestañas activas; hoja de formulario;
+    riel vertical con enlaces a las cinco fases y tira horizontal sticky en móvil
+    con scroll spy; secciones `seccion-datos`…`seccion-cierre` con `aria-labelledby`;
+    chips de descriptores; composición con marca de obligatoria, total y barra
+    visual; barra de guardado fija; `#estado-guardado` movido fuera de
+    `#vista-carga` para que la confirmación y los errores sigan visibles en
+    búsqueda; enlace “Saltar al contenido”; resultados de búsqueda en tarjetas
+    con cosecha, tipo y acción “Abrir ficha” visible también en móvil.
+  - Hecho cuando: los tres checks de cierre pasan y las pruebas de diseño cubren
+    escritorio, móvil, guardado, composición obligatoria y acción de resultados.
+  - ✔ 2026-11-01: **156 unitarios + 32 E2E + lint** en verde. Nuevos:
+    `e2e/diseno.spec.js` (5) y ajustes de `accesibilidad.spec.js` (skip link) y
+    `smoke.spec.js` (título de la vista). No cierra la UX completa: Fase 2
+    (feedback de errores, autenticación y estados de carga) y Fase 3 (pulido de
+    búsqueda) quedan pendientes de aprobación; “Nueva ficha” sigue sin
+    confirmación.
+
 ## Trazabilidad RF/RNF → tareas
 
 | Requisito | Tarea(s) |
@@ -326,6 +347,6 @@
 | RNF-2 | T8, T10, T19 |
 | RNF-3 | T8, T12 |
 | RNF-4 | T17, T18, T20 |
-| RNF-5 | T14, T18 |
-| RNF-6 | T13 |
+| RNF-5 | T14, T18, T25 |
+| RNF-6 | T13, T25 |
 | RNF-7 | T9 (solo campos del vino), T18 |

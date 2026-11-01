@@ -1,6 +1,11 @@
 # Changelog
 
-## Sin publicar (2026-10-31)
+## Sin publicar (2026-11-01)
+- T25 (Fase 1 UX/UI): rediseño visual “Bitácora de cata” con barra superior,
+  riel vertical y tira móvil de fases, chips de descriptores, composición con
+  obligatorio/barra, barra de guardado fija y tarjetas de búsqueda. El estado de
+  guardado pasa a un aviso global visible también en búsqueda; se agrega enlace
+  para saltar al contenido. Sin cambios de RF/RNF, mensajes ni comportamiento.
 - T22: al identificarse, Google muestra siempre el selector de cuentas (`prompt:
   select_account`), para elegir con qué cuenta se guarda y se define `autor` (RF-18).
 - T23: Client ID público configurado en `js/config.js` (sin secretos en el repo).
@@ -8,7 +13,7 @@
   UX/UI; revisada: solo `SKILL.md` + `LICENSE.txt`, sin scripts.
 - T21: `AGENTS.md` y este changelog actualizados, `package.json` alineado a la versión
   1.0.0 y checklist de entrega en `docs/checklist-entrega.md`. Sin cambios de código.
-- Checks: 156 unitarios + 27 E2E + lint en verde.
+- Checks: 156 unitarios + 32 E2E + lint en verde.
 
 ## 1.0 (2026-10-14)
 - MVP de FichaDeCataWeb aceptado el 2026-10-13 (T1–T18) y cerrado con T19–T20: ficha

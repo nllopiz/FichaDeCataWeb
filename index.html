@@ -3,6 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="Ficha de cata personal: cargá, buscá y editá tus fichas de vino."
+    />
     <title>Ficha de Cata Web</title>
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5/dist/css/bootstrap.min.css"
@@ -12,353 +16,665 @@
     <script src="https://accounts.google.com/gsi/client" async defer></script>
   </head>
   <body>
-    <main class="container py-4">
-      <h1>Ficha de Cata Web</h1>
+    <a class="skip" href="#contenido">Saltar al contenido</a>
 
-      <nav class="mb-4 d-flex gap-2" aria-label="Secciones de la app">
-        <button type="button" class="btn btn-outline-primary" data-ir="carga">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-bar" aria-hidden="true"></span>
+        <span>
+          <span class="brand-name">Ficha de Cata</span>
+          <span class="brand-sub">Cuaderno de cata</span>
+        </span>
+      </div>
+
+      <nav class="tabs" aria-label="Secciones de la app">
+        <button
+          type="button"
+          class="tab btn btn-outline-primary is-active"
+          data-ir="carga"
+          aria-current="page"
+        >
           Cargar ficha
         </button>
         <button
           type="button"
-          class="btn btn-outline-primary"
+          class="tab btn btn-outline-primary"
           data-ir="busqueda"
         >
           Buscar fichas
         </button>
       </nav>
 
-      <section id="vista-carga" aria-labelledby="titulo-carga">
-        <div class="d-flex gap-3 align-items-center mb-3">
-          <h2 id="titulo-carga" class="my-0">Nueva ficha</h2>
-          <button
-            type="button"
-            class="btn btn-outline-secondary btn-sm"
-            id="nueva-ficha"
+      <div class="top-actions">
+        <span class="draft"
+          ><span class="dot dot--olive"></span> Borrador local</span
+        >
+        <button type="button" class="btn btn-quiet" id="nueva-ficha">
+          Nueva ficha
+        </button>
+      </div>
+    </header>
+
+    <nav class="mobile-phases" id="fases-movil" aria-label="Fases de la cata">
+      <ol class="mobile-phases-list">
+        <li>
+          <a
+            class="mobile-phase is-active"
+            href="#seccion-datos"
+            aria-label="Datos del vino"
+            aria-current="step"
           >
-            Nueva ficha
-          </button>
-        </div>
-        <form id="form-ficha" aria-label="Formulario de ficha de cata">
-          <fieldset class="mb-4">
-            <legend class="fs-5">Datos del vino</legend>
-            <div class="mb-3">
-              <label class="form-label" for="bodega">Bodega</label>
-              <input
-                class="form-control"
-                id="bodega"
-                name="bodega"
-                type="text"
-              />
-            </div>
-            <div class="mb-3">
-              <label class="form-label" for="pais">País</label>
-              <input class="form-control" id="pais" name="pais" type="text" />
-            </div>
-            <div class="mb-3">
-              <label class="form-label" for="provincia">Provincia</label>
-              <input
-                class="form-control"
-                id="provincia"
-                name="provincia"
-                type="text"
-              />
-            </div>
-            <div class="mb-3">
-              <label class="form-label" for="zona">Zona</label>
-              <input class="form-control" id="zona" name="zona" type="text" />
-            </div>
-            <div class="mb-3">
-              <label class="form-label" for="tipo">Tipo de vino</label>
-              <select class="form-select" id="tipo" name="tipo"></select>
-            </div>
-            <div class="mb-3">
-              <label class="form-label" for="linea"
-                >Nombre de la línea de vino</label
-              >
-              <input class="form-control" id="linea" name="linea" type="text" />
-            </div>
-            <fieldset id="composicion">
-              <legend class="fs-6">Composición (una fila por cepa)</legend>
-            </fieldset>
-            <button
-              type="button"
-              class="btn btn-outline-secondary"
-              id="agregar-cepa"
-            >
-              Agregar cepa
-            </button>
-            <p
-              id="suma-composicion"
-              class="form-text"
-              role="status"
-              aria-live="polite"
-            ></p>
-            <div class="mb-3">
-              <label class="form-label" for="cosecha">Cosecha</label>
-              <select class="form-select" id="cosecha" name="cosecha"></select>
-            </div>
-            <div class="mb-3">
-              <label class="form-label" for="graduacion"
-                >Graduación alcohólica</label
-              >
-              <input
-                class="form-control"
-                id="graduacion"
-                name="graduacion"
-                type="number"
-                step="0.1"
-                min="0"
-                max="100"
-              />
-            </div>
-          </fieldset>
+            <span aria-hidden="true">1</span>
+          </a>
+        </li>
+        <li>
+          <a class="mobile-phase" href="#seccion-vista" aria-label="Vista">
+            <span aria-hidden="true">2</span>
+          </a>
+        </li>
+        <li>
+          <a class="mobile-phase" href="#seccion-nariz" aria-label="Nariz">
+            <span aria-hidden="true">3</span>
+          </a>
+        </li>
+        <li>
+          <a class="mobile-phase" href="#seccion-boca" aria-label="Boca">
+            <span aria-hidden="true">4</span>
+          </a>
+        </li>
+        <li>
+          <a class="mobile-phase" href="#seccion-cierre" aria-label="Cierre">
+            <span aria-hidden="true">5</span>
+          </a>
+        </li>
+      </ol>
+      <p class="mobile-phase-name" aria-live="polite">Datos del vino</p>
+    </nav>
 
-          <fieldset class="mb-4">
-            <legend class="fs-5">Fase visual / color</legend>
-            <div class="mb-3">
-              <label class="form-label" for="tono_matiz">Tono o matiz</label>
-              <select
-                class="form-select"
-                id="tono_matiz"
-                name="tono_matiz"
-              ></select>
-            </div>
-            <div id="bloque-espumante" hidden>
-              <div class="mb-3">
-                <label class="form-label" for="color_espumante"
-                  >Color del espumante</label
-                >
-                <select
-                  class="form-select"
-                  id="color_espumante"
-                  name="color_espumante"
-                ></select>
-              </div>
-              <div class="mb-3">
-                <label class="form-label" for="metodo_espumante"
-                  >Método de elaboración</label
-                >
-                <select
-                  class="form-select"
-                  id="metodo_espumante"
-                  name="metodo_espumante"
-                ></select>
-              </div>
-            </div>
-            <div class="mb-3">
-              <label class="form-label" for="intensidad_color"
-                >Intensidad del color</label
-              >
-              <select
-                class="form-select"
-                id="intensidad_color"
-                name="intensidad_color"
-              ></select>
-            </div>
-            <div class="mb-3">
-              <label class="form-label" for="vivacidad_brillo"
-                >Vivacidad y brillo</label
-              >
-              <select
-                class="form-select"
-                id="vivacidad_brillo"
-                name="vivacidad_brillo"
-              ></select>
-            </div>
-            <div class="mb-3">
-              <label class="form-label" for="limpieza_transparencia"
-                >Limpieza y transparencia</label
-              >
-              <select
-                class="form-select"
-                id="limpieza_transparencia"
-                name="limpieza_transparencia"
-              ></select>
-            </div>
-            <div class="mb-3">
-              <label class="form-label" for="evolucion_color"
-                >Evolución (color)</label
-              >
-              <select
-                class="form-select"
-                id="evolucion_color"
-                name="evolucion_color"
-              ></select>
-            </div>
-          </fieldset>
+    <main id="contenido" class="workspace">
+      <section id="vista-carga" aria-labelledby="titulo-carga">
+        <aside class="rail">
+          <p class="rail-title">La cata</p>
+          <ol class="phases" aria-label="Fases de la cata">
+            <li class="phase is-active" data-fase="seccion-datos">
+              <a class="phase-link" href="#seccion-datos" aria-current="step">
+                <span class="phase-num" aria-hidden="true">1</span>
+                <span class="phase-text">
+                  <span>Datos del vino</span>
+                  <small>La etiqueta</small>
+                </span>
+              </a>
+            </li>
+            <li class="phase" data-fase="seccion-vista">
+              <a class="phase-link" href="#seccion-vista">
+                <span class="phase-num" aria-hidden="true">2</span>
+                <span class="phase-text">
+                  <span>Vista</span>
+                  <small>Color y brillo</small>
+                </span>
+              </a>
+            </li>
+            <li class="phase" data-fase="seccion-nariz">
+              <a class="phase-link" href="#seccion-nariz">
+                <span class="phase-num" aria-hidden="true">3</span>
+                <span class="phase-text">
+                  <span>Nariz</span>
+                  <small>Aromas</small>
+                </span>
+              </a>
+            </li>
+            <li class="phase" data-fase="seccion-boca">
+              <a class="phase-link" href="#seccion-boca">
+                <span class="phase-num" aria-hidden="true">4</span>
+                <span class="phase-text">
+                  <span>Boca</span>
+                  <small>Estructura</small>
+                </span>
+              </a>
+            </li>
+            <li class="phase" data-fase="seccion-cierre">
+              <a class="phase-link" href="#seccion-cierre">
+                <span class="phase-num" aria-hidden="true">5</span>
+                <span class="phase-text">
+                  <span>Cierre</span>
+                  <small>Tu impresión</small>
+                </span>
+              </a>
+            </li>
+          </ol>
+          <p class="rail-note">
+            La ficha se guarda como borrador mientras cargás. Si cerrás, no
+            perdés lo escrito.
+          </p>
+        </aside>
 
-          <fieldset class="mb-4">
-            <legend class="fs-5">Fase olfativa</legend>
-            <div class="mb-3">
-              <label class="form-label" for="limpieza_franqueza"
-                >Limpieza o franqueza</label
-              >
-              <select
-                class="form-select"
-                id="limpieza_franqueza"
-                name="limpieza_franqueza"
-              ></select>
+        <div class="sheet">
+          <div class="sheet-head">
+            <div>
+              <p class="sheet-kicker">Ficha de cata</p>
+              <h1 id="titulo-carga">Nueva ficha</h1>
+              <p class="lede">
+                Empezá por la etiqueta. Después seguimos por los sentidos.
+              </p>
             </div>
-            <div class="mb-3" id="bloque-defecto" hidden>
-              <label class="form-label" for="defecto">Defecto</label>
-              <select class="form-select" id="defecto" name="defecto"></select>
-            </div>
-            <div class="mb-3">
-              <label class="form-label" for="expresion_intensidad"
-                >Expresión-Intensidad</label
-              >
-              <select
-                class="form-select"
-                id="expresion_intensidad"
-                name="expresion_intensidad"
-              ></select>
-            </div>
-            <div class="mb-3">
-              <label class="form-label" for="equilibrio">Equilibrio</label>
-              <select
-                class="form-select"
-                id="equilibrio"
-                name="equilibrio"
-              ></select>
-            </div>
-            <fieldset id="notas-aromaticas">
-              <legend class="fs-6">Notas aromáticas</legend>
-            </fieldset>
-          </fieldset>
-
-          <fieldset class="mb-4">
-            <legend class="fs-5">Fase gustativa</legend>
-            <div class="mb-3">
-              <label class="form-label" for="dulzor">Dulzor</label>
-              <select class="form-select" id="dulzor" name="dulzor"></select>
-            </div>
-            <div class="mb-3">
-              <label class="form-label" for="acidez">Acidez</label>
-              <select class="form-select" id="acidez" name="acidez"></select>
-            </div>
-            <div class="mb-3">
-              <label class="form-label" for="taninos_cantidad"
-                >Taninos (cantidad)</label
-              >
-              <select
-                class="form-select"
-                id="taninos_cantidad"
-                name="taninos_cantidad"
-              ></select>
-            </div>
-            <div class="mb-3">
-              <label class="form-label" for="taninos_calidad"
-                >Taninos (calidad)</label
-              >
-              <select
-                class="form-select"
-                id="taninos_calidad"
-                name="taninos_calidad"
-              ></select>
-            </div>
-            <div class="mb-3">
-              <label class="form-label" for="alcohol_percepcion"
-                >Alcohol (percepción en boca)</label
-              >
-              <select
-                class="form-select"
-                id="alcohol_percepcion"
-                name="alcohol_percepcion"
-              ></select>
-            </div>
-            <div class="mb-3">
-              <label class="form-label" for="cuerpo">Cuerpo</label>
-              <select class="form-select" id="cuerpo" name="cuerpo"></select>
-            </div>
-            <div class="mb-3">
-              <label class="form-label" for="entrada">Entrada</label>
-              <select class="form-select" id="entrada" name="entrada"></select>
-            </div>
-            <div class="mb-3">
-              <label class="form-label" for="evolucion_boca"
-                >Evolución o medio de boca</label
-              >
-              <input
-                class="form-control"
-                id="evolucion_boca"
-                name="evolucion_boca"
-                type="text"
-              />
-            </div>
-            <fieldset id="aromas-boca">
-              <legend class="fs-6">Aromas de boca</legend>
-            </fieldset>
-            <div class="mb-3">
-              <label class="form-label" for="impresion_final"
-                >Impresión final</label
-              >
-              <select
-                class="form-select"
-                id="impresion_final"
-                name="impresion_final"
-              ></select>
-            </div>
-            <div class="mb-3">
-              <label class="form-label" for="postgusto">Postgusto</label>
-              <select
-                class="form-select"
-                id="postgusto"
-                name="postgusto"
-              ></select>
-            </div>
-          </fieldset>
-
-          <fieldset class="mb-4">
-            <legend class="fs-5">Apreciación personal</legend>
-            <div class="mb-3">
-              <label class="form-label" for="apreciacion"
-                >Apreciación personal del vino</label
-              >
-              <textarea
-                class="form-control"
-                id="apreciacion"
-                name="apreciacion"
-                rows="3"
-              ></textarea>
-            </div>
-          </fieldset>
-
-          <div class="mb-3">
-            <button type="submit" class="btn btn-primary" id="guardar">
-              Guardar
-            </button>
           </div>
-          <p
-            id="estado-guardado"
-            class="form-text"
-            role="status"
-            aria-live="polite"
-          ></p>
-        </form>
+
+          <p class="required-note" id="nota-obligatorios">
+            <span class="req" aria-hidden="true"></span>
+            Los puntos marcan los datos obligatorios.
+          </p>
+
+          <form
+            id="form-ficha"
+            aria-label="Formulario de ficha de cata"
+            novalidate
+          >
+            <section
+              id="seccion-datos"
+              class="form-section"
+              aria-labelledby="titulo-datos"
+            >
+              <div class="section-head">
+                <h2 id="titulo-datos">Datos del vino</h2>
+                <p class="section-note">
+                  Lo que dice la etiqueta, sin interpretar.
+                </p>
+              </div>
+
+              <div class="field-grid">
+                <div class="field span-7">
+                  <label class="form-label" for="bodega">
+                    Bodega <span class="req" aria-hidden="true"></span>
+                  </label>
+                  <input
+                    class="form-control"
+                    id="bodega"
+                    name="bodega"
+                    type="text"
+                    aria-required="true"
+                    autocomplete="off"
+                  />
+                </div>
+                <div class="field span-5">
+                  <label class="form-label" for="linea">
+                    Nombre de la línea de vino
+                    <span class="req" aria-hidden="true"></span>
+                  </label>
+                  <input
+                    class="form-control"
+                    id="linea"
+                    name="linea"
+                    type="text"
+                    aria-required="true"
+                    autocomplete="off"
+                  />
+                </div>
+
+                <div class="field span-4">
+                  <label class="form-label" for="pais">País</label>
+                  <input
+                    class="form-control"
+                    id="pais"
+                    name="pais"
+                    type="text"
+                    autocomplete="off"
+                  />
+                </div>
+                <div class="field span-4">
+                  <label class="form-label" for="provincia">Provincia</label>
+                  <input
+                    class="form-control"
+                    id="provincia"
+                    name="provincia"
+                    type="text"
+                    autocomplete="off"
+                  />
+                </div>
+                <div class="field span-4">
+                  <label class="form-label" for="zona">Zona</label>
+                  <input
+                    class="form-control"
+                    id="zona"
+                    name="zona"
+                    type="text"
+                    autocomplete="off"
+                  />
+                </div>
+
+                <div class="field span-4">
+                  <label class="form-label" for="tipo">
+                    Tipo de vino <span class="req" aria-hidden="true"></span>
+                  </label>
+                  <select
+                    class="form-select"
+                    id="tipo"
+                    name="tipo"
+                    aria-required="true"
+                  ></select>
+                </div>
+                <div class="field span-4">
+                  <label class="form-label" for="cosecha">
+                    Cosecha <span class="req" aria-hidden="true"></span>
+                  </label>
+                  <select
+                    class="form-select"
+                    id="cosecha"
+                    name="cosecha"
+                    aria-required="true"
+                  ></select>
+                </div>
+                <div class="field span-4">
+                  <label class="form-label" for="graduacion">
+                    Graduación alcohólica
+                    <span class="req" aria-hidden="true"></span>
+                  </label>
+                  <div class="input-wrap">
+                    <input
+                      class="form-control"
+                      id="graduacion"
+                      name="graduacion"
+                      type="number"
+                      inputmode="decimal"
+                      step="0.1"
+                      min="0"
+                      max="100"
+                      aria-required="true"
+                      autocomplete="off"
+                    />
+                    <span class="suffix" aria-hidden="true">%</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="composition">
+                <div class="composition-head">
+                  <h3>
+                    Composición <span class="req" aria-hidden="true"></span>
+                  </h3>
+                  <p
+                    id="suma-composicion"
+                    class="total"
+                    role="status"
+                    aria-live="polite"
+                  ></p>
+                </div>
+
+                <div
+                  id="blend"
+                  class="blend"
+                  role="img"
+                  aria-label="Composición vacía"
+                  hidden
+                ></div>
+
+                <fieldset
+                  id="composicion"
+                  class="composition-rows"
+                  aria-required="true"
+                  aria-describedby="nota-obligatorios"
+                >
+                  <legend class="visually-hidden">
+                    Cepas y porcentajes de la composición
+                  </legend>
+                </fieldset>
+
+                <button
+                  type="button"
+                  class="btn btn-outline-secondary add-cepa"
+                  id="agregar-cepa"
+                >
+                  + Agregar cepa
+                </button>
+              </div>
+            </section>
+
+            <section
+              id="seccion-vista"
+              class="form-section"
+              aria-labelledby="titulo-vista"
+            >
+              <div class="section-head">
+                <h2 id="titulo-vista">Vista</h2>
+                <p class="section-note">Fase visual y color.</p>
+              </div>
+
+              <div class="field-grid">
+                <div class="field span-4">
+                  <label class="form-label" for="tono_matiz"
+                    >Tono o matiz</label
+                  >
+                  <select
+                    class="form-select"
+                    id="tono_matiz"
+                    name="tono_matiz"
+                  ></select>
+                </div>
+                <div class="field span-4">
+                  <label class="form-label" for="intensidad_color">
+                    Intensidad del color
+                  </label>
+                  <select
+                    class="form-select"
+                    id="intensidad_color"
+                    name="intensidad_color"
+                  ></select>
+                </div>
+                <div class="field span-4">
+                  <label class="form-label" for="vivacidad_brillo">
+                    Vivacidad y brillo
+                  </label>
+                  <select
+                    class="form-select"
+                    id="vivacidad_brillo"
+                    name="vivacidad_brillo"
+                  ></select>
+                </div>
+
+                <div class="field span-6">
+                  <label class="form-label" for="limpieza_transparencia">
+                    Limpieza y transparencia
+                  </label>
+                  <select
+                    class="form-select"
+                    id="limpieza_transparencia"
+                    name="limpieza_transparencia"
+                  ></select>
+                </div>
+                <div class="field span-6">
+                  <label class="form-label" for="evolucion_color">
+                    Evolución (color)
+                  </label>
+                  <select
+                    class="form-select"
+                    id="evolucion_color"
+                    name="evolucion_color"
+                  ></select>
+                </div>
+
+                <div id="bloque-espumante" class="span-12" hidden>
+                  <div class="field-grid">
+                    <div class="field span-6">
+                      <label class="form-label" for="color_espumante">
+                        Color del espumante
+                      </label>
+                      <select
+                        class="form-select"
+                        id="color_espumante"
+                        name="color_espumante"
+                      ></select>
+                    </div>
+                    <div class="field span-6">
+                      <label class="form-label" for="metodo_espumante">
+                        Método de elaboración
+                      </label>
+                      <select
+                        class="form-select"
+                        id="metodo_espumante"
+                        name="metodo_espumante"
+                      ></select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section
+              id="seccion-nariz"
+              class="form-section"
+              aria-labelledby="titulo-nariz"
+            >
+              <div class="section-head">
+                <h2 id="titulo-nariz">Nariz</h2>
+                <p class="section-note">
+                  Fase olfativa. Marcá todo lo que aparezca.
+                </p>
+              </div>
+
+              <div class="field-grid">
+                <div class="field span-4">
+                  <label class="form-label" for="limpieza_franqueza">
+                    Limpieza o franqueza
+                  </label>
+                  <select
+                    class="form-select"
+                    id="limpieza_franqueza"
+                    name="limpieza_franqueza"
+                  ></select>
+                </div>
+                <div class="field span-4" id="bloque-defecto" hidden>
+                  <label class="form-label" for="defecto">Defecto</label>
+                  <select
+                    class="form-select"
+                    id="defecto"
+                    name="defecto"
+                  ></select>
+                </div>
+                <div class="field span-4">
+                  <label class="form-label" for="expresion_intensidad">
+                    Expresión-Intensidad
+                  </label>
+                  <select
+                    class="form-select"
+                    id="expresion_intensidad"
+                    name="expresion_intensidad"
+                  ></select>
+                </div>
+                <div class="field span-4">
+                  <label class="form-label" for="equilibrio">Equilibrio</label>
+                  <select
+                    class="form-select"
+                    id="equilibrio"
+                    name="equilibrio"
+                  ></select>
+                </div>
+              </div>
+
+              <fieldset id="notas-aromaticas" class="descriptors">
+                <legend>Notas aromáticas</legend>
+              </fieldset>
+            </section>
+
+            <section
+              id="seccion-boca"
+              class="form-section"
+              aria-labelledby="titulo-boca"
+            >
+              <div class="section-head">
+                <h2 id="titulo-boca">Boca</h2>
+                <p class="section-note">
+                  Fase gustativa. La estructura del vino.
+                </p>
+              </div>
+
+              <div class="field-grid">
+                <div class="field span-4">
+                  <label class="form-label" for="dulzor">Dulzor</label>
+                  <select
+                    class="form-select"
+                    id="dulzor"
+                    name="dulzor"
+                  ></select>
+                </div>
+                <div class="field span-4">
+                  <label class="form-label" for="acidez">Acidez</label>
+                  <select
+                    class="form-select"
+                    id="acidez"
+                    name="acidez"
+                  ></select>
+                </div>
+                <div class="field span-4">
+                  <label class="form-label" for="alcohol_percepcion">
+                    Alcohol (percepción en boca)
+                  </label>
+                  <select
+                    class="form-select"
+                    id="alcohol_percepcion"
+                    name="alcohol_percepcion"
+                  ></select>
+                </div>
+
+                <div class="field span-4">
+                  <label class="form-label" for="taninos_cantidad">
+                    Taninos (cantidad)
+                  </label>
+                  <select
+                    class="form-select"
+                    id="taninos_cantidad"
+                    name="taninos_cantidad"
+                  ></select>
+                </div>
+                <div class="field span-4">
+                  <label class="form-label" for="taninos_calidad">
+                    Taninos (calidad)
+                  </label>
+                  <select
+                    class="form-select"
+                    id="taninos_calidad"
+                    name="taninos_calidad"
+                  ></select>
+                </div>
+                <div class="field span-4">
+                  <label class="form-label" for="cuerpo">Cuerpo</label>
+                  <select
+                    class="form-select"
+                    id="cuerpo"
+                    name="cuerpo"
+                  ></select>
+                </div>
+
+                <div class="field span-6">
+                  <label class="form-label" for="entrada">Entrada</label>
+                  <select
+                    class="form-select"
+                    id="entrada"
+                    name="entrada"
+                  ></select>
+                </div>
+                <div class="field span-6">
+                  <label class="form-label" for="evolucion_boca">
+                    Evolución o medio de boca
+                  </label>
+                  <input
+                    class="form-control"
+                    id="evolucion_boca"
+                    name="evolucion_boca"
+                    type="text"
+                    autocomplete="off"
+                  />
+                </div>
+              </div>
+
+              <fieldset id="aromas-boca" class="descriptors">
+                <legend>Aromas de boca</legend>
+              </fieldset>
+
+              <div class="field-grid field-grid--after-descriptors">
+                <div class="field span-6">
+                  <label class="form-label" for="impresion_final">
+                    Impresión final
+                  </label>
+                  <select
+                    class="form-select"
+                    id="impresion_final"
+                    name="impresion_final"
+                  ></select>
+                </div>
+                <div class="field span-6">
+                  <label class="form-label" for="postgusto">Postgusto</label>
+                  <select
+                    class="form-select"
+                    id="postgusto"
+                    name="postgusto"
+                  ></select>
+                </div>
+              </div>
+            </section>
+
+            <section
+              id="seccion-cierre"
+              class="form-section"
+              aria-labelledby="titulo-cierre"
+            >
+              <div class="section-head">
+                <h2 id="titulo-cierre">Cierre</h2>
+                <p class="section-note">Tu impresión, con tus palabras.</p>
+              </div>
+
+              <div class="field">
+                <label class="form-label" for="apreciacion">
+                  Apreciación personal del vino
+                </label>
+                <textarea
+                  class="form-control"
+                  id="apreciacion"
+                  name="apreciacion"
+                  rows="4"
+                ></textarea>
+              </div>
+            </section>
+
+            <div class="save-bar">
+              <div class="save-bar-inner">
+                <div class="save-status">
+                  <span class="dot dot--olive" aria-hidden="true"></span>
+                  <span>
+                    <strong>Borrador local</strong>
+                    <small>La ficha se conserva mientras cargás.</small>
+                  </span>
+                </div>
+                <button type="submit" class="btn btn-primary" id="guardar">
+                  Guardar ficha
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
       </section>
 
       <section id="vista-busqueda" aria-labelledby="titulo-busqueda" hidden>
-        <h2 id="titulo-busqueda">Buscar fichas</h2>
-        <div class="mb-3">
-          <label class="form-label" for="busqueda"
-            >Búsqueda por bodega o línea</label
-          >
-          <input class="form-control" id="busqueda" type="search" />
+        <div class="search-head">
+          <p class="sheet-kicker">Tu cuaderno</p>
+          <h1 id="titulo-busqueda">Buscar fichas</h1>
+          <p class="lede">
+            Buscá por bodega o por línea. Los resultados se abren para editar.
+          </p>
         </div>
-        <div id="resultados-busqueda"></div>
-        <p
-          id="estado-busqueda"
-          class="form-text"
-          role="status"
-          aria-live="polite"
-        ></p>
+
+        <div class="search-panel">
+          <label class="search-label form-label" for="busqueda">
+            Búsqueda por bodega o línea
+          </label>
+          <div class="search-row">
+            <input
+              class="form-control"
+              id="busqueda"
+              type="search"
+              autocomplete="off"
+            />
+          </div>
+
+          <div id="resultados-busqueda"></div>
+          <p
+            id="estado-busqueda"
+            class="search-status form-text"
+            role="status"
+            aria-live="polite"
+          ></p>
+        </div>
       </section>
 
       <section id="vista-edicion" aria-labelledby="titulo-edicion" hidden>
         <h2 id="titulo-edicion">Editar ficha</h2>
       </section>
     </main>
+
+    <p
+      id="estado-guardado"
+      class="toast-global form-text"
+      role="status"
+      aria-live="polite"
+    ></p>
 
     <script type="module" src="js/app.js"></script>
   </body>

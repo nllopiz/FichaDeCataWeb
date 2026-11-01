@@ -10,6 +10,7 @@ import {
 } from "./auth.js";
 import { filtrarFichas, mensajeSinResultados, conRetraso } from "./busqueda.js";
 import { mostrarVista, renderResultados } from "./ui.js";
+import { configurarFases } from "./fases.js";
 import {
   guardarBorrador,
   borrarBorrador,
@@ -33,6 +34,7 @@ let fechaCreacionPrevia = null;
 
 if (form) {
   montarFormulario(form);
+  configurarFases();
   // T20: la planilla FichaCataWeb se busca o crea sola desde la cuenta del dueño;
   // el ID queda en el navegador. Guardar crea si no existe; buscar solo localiza.
   sheets.configurarSheets({
@@ -131,8 +133,10 @@ if (form) {
     if (!termino.trim()) {
       contenedorResultados.textContent = "";
       estadoBusqueda.textContent = "";
+      estadoBusqueda.classList.remove("is-empty");
       return;
     }
+    estadoBusqueda.classList.remove("is-empty");
     if (!sheets.hayCache()) {
       // CL-7: ver las fichas guardadas exige identificarse; sin token no se
       // muestra contenido guardado.
@@ -157,9 +161,11 @@ if (form) {
     if (encontradas.length === 0) {
       contenedorResultados.textContent = "";
       estadoBusqueda.textContent = mensajeSinResultados(termino);
+      estadoBusqueda.classList.add("is-empty");
       return;
     }
     estadoBusqueda.textContent = "";
+    estadoBusqueda.classList.remove("is-empty");
     renderResultados(contenedorResultados, encontradas, alAbrirParaEditar);
   }
 

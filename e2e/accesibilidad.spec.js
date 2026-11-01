@@ -176,6 +176,20 @@ test("el foco de teclado es visible con contraste AA (WCAG 2.4.7 / 1.4.11)", asy
   await prepararPagina(page, []);
 
   await page.keyboard.press("Tab");
+  const saltar = await page.evaluate(() => {
+    const activo = document.activeElement;
+    const estilo = getComputedStyle(activo);
+    return {
+      elemento: activo.textContent.trim() || activo.id || activo.className,
+      estilo: estilo.outlineStyle,
+      ancho: estilo.outlineWidth,
+    };
+  });
+  expect(saltar.elemento).toContain("Saltar al contenido");
+  expect(saltar.estilo, "outlineStyle").not.toBe("none");
+  expect(Number.parseFloat(saltar.ancho)).toBeGreaterThanOrEqual(2);
+
+  await page.keyboard.press("Tab");
   const contorno = await page.evaluate(() => {
     const activo = document.activeElement;
     const estilo = getComputedStyle(activo);
