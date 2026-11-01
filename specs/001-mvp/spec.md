@@ -93,7 +93,7 @@ Declarado por el usuario (2026-10-10):
   - Impresión final: Defectuoso, Pobre, Aceptable, Bueno, Muy bueno, Sobresaliente.
   (La varietal de la composición y los campos de texto libre no forman parte de esta lista.)
 - RF-10: CUANDO una búsqueda no arroja resultados, EL SISTEMA muestra el mensaje "Sin resultados para ‹término buscado›".
-- RF-11: CUANDO el guardado se rechaza, EL SISTEMA indica al usuario el motivo (campos obligatorios faltantes o suma de composición distinta de 100).
+- RF-11: CUANDO el guardado se rechaza, EL SISTEMA indica el motivo (campos obligatorios faltantes o suma de composición distinta de 100) en un resumen junto a la acción de guardar, marca cada campo faltante junto al campo y lleva el foco al primero de los campos o controles involucrados.
 - RF-12: CUANDO el usuario selecciona el tipo de vino, EL SISTEMA ofrece el tono o matiz correspondiente a ese tipo:
   - Blanco: limón-verdoso, limón, dorado, ámbar.
   - Rosado: rosa pálido, salmón, rosa, frambuesa.
@@ -122,7 +122,7 @@ Declarado por el usuario (2026-10-10):
 - RNF-2 (auditoría): EL SISTEMA registra para cada ficha su autor, fecha de creación y fecha de última modificación.
 - RNF-3 (rendimiento): CUANDO el usuario busca o abre una ficha, EL SISTEMA responde en menos de 2 segundos con 500 fichas cargadas.
 - RNF-4 (disponibilidad): EL SISTEMA mantiene disponibles las fichas ya guardadas para consulta y búsqueda, con una disponibilidad de al menos el 99% del tiempo mensual y sin mantenimiento programado en horario de uso.
-- RNF-5 (accesibilidad): EL SISTEMA cumple el nivel AA de WCAG 2.1 (navegación con teclado, anuncio por lector de pantalla, contraste y tamaño de texto).
+- RNF-5 (accesibilidad): EL SISTEMA cumple el nivel AA de WCAG 2.1 (navegación con teclado, anuncio por lector de pantalla, contraste y tamaño de texto), incluidos los errores de validación asociados a su campo y los estados de carga y autenticación anunciados.
 - RNF-6 (uso en móvil): MIENTRAS el usuario opera desde un teléfono, EL SISTEMA habilita el flujo completo cargar → buscar → editar sin ocultar ni recortar campos.
 - RNF-7 (datos): EL SISTEMA solo solicita datos del vino y apreciaciones del propio usuario; no pide datos personales de terceros.
 
@@ -141,7 +141,7 @@ Declarado por el usuario (2026-10-10):
 ## 8. Criterios de aceptación
 
 - CA-1: Se puede crear una ficha completa con todos los campos del Alcance y volver a encontrarla por bodega y por línea de vino (RF-1, RF-2, RF-7).
-- CA-2: Guardar sin uno de los campos obligatorios es rechazado con mensaje que nombra los campos faltantes; guardando esos campos, la ficha se guarda aunque falten datos opcionales (RF-3, RF-11, RF-4).
+- CA-2: Guardar sin uno de los campos obligatorios es rechazado con un mensaje que nombra los campos faltantes, cada campo queda marcado y el foco pasa al primero; guardando esos campos, la ficha se guarda aunque falten datos opcionales (RF-3, RF-11, RF-4).
 - CA-3: Un doble toque en "guardar" produce exactamente una ficha (RF-5).
 - CA-4: Simulada la pérdida de conexión a mitad de carga o edición, el avance sigue disponible y no se pierde (RF-6).
 - CA-5: Editar una ficha y guardarla no incrementa la cantidad de fichas; la búsqueda devuelve la versión corregida (RF-8).
@@ -150,7 +150,7 @@ Declarado por el usuario (2026-10-10):
 - CA-8: Una persona distinta del propietario no puede ver ni editar fichas guardadas, ni con el enlace directo de una ficha (RNF-1).
 - CA-9: Cada ficha muestra autor y fechas de creación y modificación (RNF-2).
 - CA-10: La búsqueda responde en menos de 2 segundos con 500 fichas cargadas (RNF-3).
-- CA-11: El flujo principal es navegable con teclado y anunciable por lector de pantalla (RNF-5).
+- CA-11: El flujo principal es navegable con teclado y anunciable por lector de pantalla, incluidos los errores de validación y los estados de carga y autenticación (RNF-5).
 - CA-12: Elegido un tipo de vino, el tono o matiz solo ofrece valores de ese tipo (RF-12); y en notas de cata se pueden seleccionar varios descriptores de distintas familias (RF-13).
 - CA-13: Una composición con porcentajes que suman 100 guarda correctamente y otra que suma 95 o 105 se rechaza con el motivo indicado (RF-14, RF-11).
 - CA-14: Guardada la misma ficha desde dos dispositivos, la búsqueda devuelve la versión guardada al final (RF-15).

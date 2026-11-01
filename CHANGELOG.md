@@ -1,6 +1,10 @@
 # Changelog
 
 ## Sin publicar (2026-11-01)
+- T26/T27 (Fase 2 UX/UI): errores de validación inline con `aria-invalid` y foco en
+  el primer control inválido, resumen del motivo junto al guardado, y estados de
+  carga/autenticación con `aria-busy` y anuncios en `role="status"`. Enmienda
+  aprobada de RF-11/RNF-5 (CA-2 y CA-11 actualizados); mensajes exactos sin cambios.
 - T25 (Fase 1 UX/UI): rediseño visual “Bitácora de cata” con barra superior,
   riel vertical y tira móvil de fases, chips de descriptores, composición con
   obligatorio/barra, barra de guardado fija y tarjetas de búsqueda. El estado de
@@ -13,7 +17,7 @@
   UX/UI; revisada: solo `SKILL.md` + `LICENSE.txt`, sin scripts.
 - T21: `AGENTS.md` y este changelog actualizados, `package.json` alineado a la versión
   1.0.0 y checklist de entrega en `docs/checklist-entrega.md`. Sin cambios de código.
-- Checks: 156 unitarios + 32 E2E + lint en verde.
+- Checks: 167 unitarios + 39 E2E + lint en verde.
 
 ## 1.0 (2026-10-14)
 - MVP de FichaDeCataWeb aceptado el 2026-10-13 (T1–T18) y cerrado con T19–T20: ficha

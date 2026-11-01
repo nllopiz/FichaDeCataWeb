@@ -25,6 +25,7 @@ Proyecto: FichaDeCataWeb (ficha de cata web, MVP en specs/001-mvp)
 - 2026-10-31 · Skills · Solicitante (eligió "Solo frontend-design"): instalada `frontend-design` (anthropics/skills, Apache 2.0); revisada (solo `SKILL.md` + `LICENSE.txt`, sin scripts) y registrada en AGENTS.md y docs/skills-necesarias.md.
 - 2026-11-01 · UX/UI · T25 (Fase 1: identidad y estructura) · Solicitante ("ok" tras la revisión del mockup "Bitácora de cata"): implementados barra superior, riel vertical y tira móvil con scroll spy, chips, composición con obligatorio y barra, barra de guardado, `#estado-guardado` global visible en búsqueda, skip link y tarjetas de resultados. Sin cambio de RF/RNF ni de mensajes; 156 unitarios + 32 E2E + lint en verde. Pendientes: Fase 2 (errores inline, autenticación y estados de carga) y Fase 3 (pulido de búsqueda), más la confirmación de "Nueva ficha".
 - 2026-11-01 · Entrega · Push de T23/T24/T25 · Solicitante ("listo el push"): `origin/main` y `HEAD` en `9c5ed67`; publicados T23 (Client ID), T24 (skill frontend-design) y T25 (Fase 1 UX/UI). Pendientes: publicación, prueba de guardado real y Fases 2–3.
+- 2026-11-01 · UX/UI · Fase 2 (T26/T27) · Solicitante ("Aprobar la enmienda"): RF-11 exige resumen del motivo junto al guardado, marca por campo y foco en el primer control inválido; RNF-5 incluye errores asociados a su campo y estados de carga/autenticación anunciados; CA-2 y CA-11 ajustados. Implementados `js/errores.js`, `aria-busy` en guardado/búsqueda y avisos en `role="status"`; **167 unitarios + 39 E2E + lint** en verde. Pendiente Fase 3 (pulido de búsqueda).
 
 ## Decisiones
 (resumen; el detalle está en docs/decisiones-tecnicas.md)
@@ -47,6 +48,7 @@ Proyecto: FichaDeCataWeb (ficha de cata web, MVP en specs/001-mvp)
 
 ## Cambios de requisitos
 (fecha · spec · qué cambió)
+- 2026-11-01 · 001-mvp · Aprobado por el Solicitante ("Aprobar la enmienda"): RF-11 ahora pide resumen del motivo junto a la acción de guardar, marca de cada campo faltante y foco en el primero; RNF-5 amplía la accesibilidad AA a errores asociados a su campo y estados de carga/autenticación anunciados; CA-2 y CA-11 actualizados. No cambiaron los mensajes exactos de RF-10/RF-11.
 - 2026-10-13 · 001-mvp · Aprobado por el Responsable técnico ("si"): T19 — `autor` = correo de la cuenta elegida en el selector de Google (scope `openid email`, desde el `id_token`); se elimina `CONFIG.correoDueno`; sin correo no se registra y se avisa. T20 — planilla `FichaCataWeb` autogestionada (buscar en Drive → crear con los 35 encabezados → recordar ID en localStorage; scope `drive.file`); `config.js` queda solo con Client ID; se revierte la decisión §7 "configuración manual de la hoja" y se actualizan guías y skill.
 - 2026-10-11 · 001-mvp · Ajustes post-entrevista técnica: RNF-1 sin la frase que duplicaba RF-17; P-6 marcada resuelta (datos en Google Sheets). Spec: 19 RF + 7 RNF + 9 CL + 21 CA.
 - 2026-10-11 · 001-mvp · Flujo de identificación: carga sin login previo, identificación con cuenta de Google al guardar, sin identificación no se registra la ficha (RF-17/18/19); RNF-1, CL-7, CA-8 ajustadas; CL-9 y CA-20/CA-21 nuevas.

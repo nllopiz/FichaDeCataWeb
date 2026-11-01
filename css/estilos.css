@@ -584,6 +584,29 @@ textarea:focus-visible {
   color: var(--tinta-suave);
 }
 
+/* Errores de validación (RF-11, RNF-5): texto junto al campo, contraste AA. */
+.field-error {
+  margin: 2px 0 0;
+  color: var(--vino);
+  font-size: 12.5px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.form-control[aria-invalid="true"],
+.form-select[aria-invalid="true"] {
+  border-color: var(--vino);
+  background-color: #fff8f8;
+}
+
+.composition-rows[aria-invalid="true"] .fila-cepa .form-control {
+  border-color: var(--vino);
+}
+
+.composition-rows + .field-error {
+  margin-top: 8px;
+}
+
 .input-wrap {
   position: relative;
 }

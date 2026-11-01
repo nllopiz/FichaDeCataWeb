@@ -31,6 +31,7 @@ en módulos ES. Node solo como herramienta de desarrollo (devDependencies).
 | `js/guardado.js` | Orquestación del guardado: bloqueo de doble toque (RF-5), flujo de identificación (RF-17/18/19), auditoría (RNF-2) |
 | `js/busqueda.js` | Búsqueda sobre la caché (RF-7), mensaje sin resultados (RF-10), apertura para editar (RF-8) |
 | `js/ui.js` | Mensajes exactos de la spec, avisos de conexión, anuncio de errores con `aria-live` (RF-10/11, RNF-5) |
+| `js/errores.js` | Errores de validación por campo: texto junto al control, `aria-invalid`/`aria-describedby`, limpieza y foco en el primero (RF-11, RNF-5, CA-2) |
 | `js/app.js` | Arranque: inicializar GIS, **precargar la hoja en segundo plano**, cablear vistas |
 | `tests/*.test.js` | Unitarios Vitest (sección 8) |
 | `e2e/*.spec.js` | E2E Playwright (sección 8) |
@@ -95,7 +96,9 @@ al pulsar Guardar:
     si guardado_en_progreso: salir                    # RF-5: el segundo toque no hace nada
     v = validarFicha(datos del formulario)
     si no v.valido:
-        mostrar motivos exactos (aria-live)           # RF-11, CL-3, CL-8
+        mostrar motivo exacto (resumen #estado-guardado, role=status)  # RF-11, CL-3, CL-8
+        marcar cada campo faltante junto al control (aria-invalid)      # RF-11, CA-2
+        enfocar el primer campo o control inválido                      # RNF-5, CA-11
         salir
     si no hay token en memoria:                        # RF-17: el formulario ya estaba abierto
         abrir popup de identificación Google           # RF-18
@@ -154,10 +157,15 @@ al crear un formulario nuevo deliberado ("Nueva ficha"): borrar_borrador("nueva"
 - Componentes nativos + Bootstrap: `select` simples (RF-9), `select` dependientes
   (RF-12/RF-16), checkboxes agrupados por familia (RF-13), filas de cepas
   agregar/quitar (RF-14).
-- Accesibilidad (RNF-5, CA-11): `label` asociado a cada campo, errores anunciados con
-  `aria-live="assertive"`, foco visible, contraste AA, todo navegable con teclado.
+- Accesibilidad (RNF-5, CA-11): `label` asociado a cada campo, errores de validación
+  junto al control con `aria-invalid`/`aria-describedby`, resumen en
+  `#estado-guardado` anunciado con `role="status"` y foco en el primer campo o control
+  inválido; foco visible, contraste AA, todo navegable con teclado.
 - Estados: aviso "sin conexión — conservamos tu avance" (RF-6, CL-2); mensajes exactos
-  de RF-10 y RF-11 textualmente; "Cargando…" durante la primera lectura de la hoja.
+  de RF-10 y RF-11 textualmente; "Cargando…" y "Preparando tu planilla…" visibles y
+  anunciados; el formulario durante el guardado y `#resultados-busqueda` durante la
+  búsqueda exponen `aria-busy`; Guardar queda deshabilitado; identificación y carga
+  anunciadas sin mover el foco.
 
 ## 6. Seguridad, permisos y auditoría
 
@@ -212,6 +220,8 @@ contradicciones), el plan decide:
   dos niveles (RF-13).
 - `guardado` (con dobles): `esDobleToque` (CA-3), cancelar identificación no registra
   (CA-21), saneado anti-fórmula, serialización ";" round-trip.
+- `errores`: mapeo de campos faltantes a controles, `aria-invalid`/`aria-describedby`,
+  limpieza y foco en el primero (CA-2, CA-11).
 
 **E2E (Playwright, con stubs)** — GIS simulado y `sheets.googleapis.com` interceptado
 con `route` y datos ficticios; **nunca** la planilla real:
@@ -222,6 +232,8 @@ con `route` y datos ficticios; **nunca** la planilla real:
 - Sin identificar → nada registrado (CA-21); tercero sin token no ve fichas (CA-8 con
   doble sin acceso).
 - Viewports de teléfono y escritorio (CA-7); teclado y roles/aria (CA-11).
+- Errores de validación: resumen, marca por campo y foco en el primero (CA-2, CA-11);
+  estados de carga y autenticación anunciados (CA-11).
 - RNF-3/CA-10: 500 filas ficticias → búsqueda < 2 s con caché cargada.
 - Opcional: `@axe-core/playwright` para a11y automatizado — **dependencia nueva, requiere
   aprobación** del Responsable técnico antes de instalarla.
@@ -242,7 +254,7 @@ con `route` y datos ficticios; **nunca** la planilla real:
 | RF-8 | guardado.js, sheets.js (`batchUpdate`) | E2E editar (CA-5) |
 | RF-9 | catalogos.js, formulario.js | unit catálogos (CA-6) |
 | RF-10 | busqueda.js, ui.js | E2E sin resultados (CA-16) |
-| RF-11 | validaciones.js, ui.js | unit validaciones |
+| RF-11 | validaciones.js, errores.js, app.js | unit validaciones + errores; E2E guardado/accesibilidad (CA-2, CA-11) |
 | RF-12 | catalogos.js, formulario.js | unit catálogos (CA-12) |
 | RF-13 | catalogos.js, formulario.js | unit catálogos (CA-12) |
 | RF-14 | validaciones.js | unit validaciones (CA-13) |
@@ -255,6 +267,6 @@ con `route` y datos ficticios; **nunca** la planilla real:
 | RNF-2 | sheets.js (auditoría) | E2E fechas y autor (CA-9) |
 | RNF-3 | sheets.js (caché), busqueda.js | CA-10: 500 filas ficticias < 2 s |
 | RNF-4 | GitHub Pages + Sheets (sin monitoreo propio) | CA-17: sin medición formal en la v1, aceptado por el Responsable técnico (grill-me p. 5); sin mantenimiento programado |
-| RNF-5 | css, ui.js, formulario.js | E2E teclado/aria (CA-11) |
+| RNF-5 | css, ui.js, errores.js, formulario.js | E2E teclado/aria (CA-11) |
 | RNF-6 | formulario.js, css | E2E viewport móvil (CA-7) |
 | RNF-7 | formulario.js | revisión de campos del formulario (CA-18) |

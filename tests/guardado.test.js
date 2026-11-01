@@ -122,6 +122,7 @@ describe("guardarFicha: rechazos (RF-11, RF-19)", () => {
     expect(resultado.estado).toBe("invalida");
     expect(resultado.faltantes).toEqual(["bodega"]);
     expect(resultado.motivo).toContain("Bodega");
+    expect(resultado.sumaComposicion).toBe(100);
     expect(g.deps.append).not.toHaveBeenCalled();
   });
 
@@ -140,6 +141,7 @@ describe("guardarFicha: rechazos (RF-11, RF-19)", () => {
 
     expect(resultado.estado).toBe("invalida");
     expect(resultado.motivo).toContain("95");
+    expect(resultado.sumaComposicion).toBe(95);
     expect(g.deps.append).not.toHaveBeenCalled();
   });
 

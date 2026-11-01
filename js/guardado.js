@@ -60,6 +60,7 @@ export async function guardarFicha({
       return {
         estado: "invalida",
         faltantes: validacion.faltantes,
+        sumaComposicion: validacion.sumaComposicion,
         motivo: validacion.motivo,
       };
     }

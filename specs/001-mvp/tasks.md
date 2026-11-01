@@ -193,7 +193,7 @@
   | CA | Verificación |
   |---|---|
   | CA-1 | E2E `formulario.spec.js` (carga completa + guardar + encontrar por bodega y línea) |
-  | CA-2 | Unit `validaciones.test.js` ("faltan varios… CA-2") y `guardado.test.js` (obligatorios); E2E `guardado.spec.js` RF-11 (mensaje nombra faltantes) y CA-20 (solo obligatorios → registra) |
+  | CA-2 | Unit `validaciones.test.js` ("faltan varios… CA-2") y `guardado.test.js` (obligatorios); E2E `guardado.spec.js` RF-11 (resumen, campos marcados y foco) y CA-20 (solo obligatorios → registra) |
   | CA-3 | E2E `guardado.spec.js` CA-3 |
   | CA-4 | E2E `precarga.spec.js` CA-4 |
   | CA-5 | E2E `busqueda.spec.js` CA-5 |
@@ -202,7 +202,7 @@
   | CA-8 | E2E `permisos.spec.js` CA-8 |
   | CA-9 | Unit `guardado.test.js` y `sheets.test.js` (CA-9); E2E `guardado.spec.js` CA-20 (autor + auditoría) |
   | CA-10 | E2E `precarga.spec.js` CA-10 |
-  | CA-11 | E2E `accesibilidad.spec.js` CA-11 + unit de foco (`ui.test.js`) |
+  | CA-11 | E2E `accesibilidad.spec.js` CA-11 + unit de foco (`ui.test.js`) + unit `errores.test.js` + E2E de estados de carga/autenticación |
   | CA-12 | E2E `formulario.spec.js` CA-12 |
   | CA-13 | Unit `validaciones.test.js` (CA-13, suma 95/105) y `guardado.test.js` (motivo 95) |
   | CA-14 | E2E `concurrencia.spec.js` CA-14 |
@@ -320,6 +320,34 @@
     búsqueda) quedan pendientes de aprobación; “Nueva ficha” sigue sin
     confirmación.
 
+- [x] **T26. Errores de validación junto al campo y foco en el primero.** RF-11
+  (enmienda 2026-11-01), RNF-5, CA-2, CA-11
+  - Alcance: `js/errores.js` nuevo con el mapeo de los seis obligatorios a sus
+    controles. Al rechazar el guardado, `#estado-guardado` conserva el motivo exacto
+    como resumen, cada campo faltante recibe su mensaje inline y `aria-invalid="true"`
+    con `aria-describedby`, y el foco pasa al primero (en composición, el primer
+    porcentaje o “Agregar cepa”). Al corregir un campo se limpia su error; al guardar bien
+    o reiniciar, se limpian todos. Estilos de error AA en `css/estilos.css`.
+  - Hecho cuando: unit de `errores.js` (marcar, limpiar y foco) y E2E de errores
+    (resumen + seis campos + foco) en verde, sin cambiar el mensaje exacto de RF-11.
+  - ✔ 2026-11-01: **167 unitarios + 35 E2E + lint** en verde. Nuevos:
+    `tests/errores.test.js` (9) y `e2e/errores.spec.js` (3); `guardarFicha` devuelve
+    `sumaComposicion` en los rechazos. El resumen sigue en `#estado-guardado`.
+
+- [x] **T27. Estados de carga y autenticación anunciados.** RNF-5, CA-11
+  - Alcance: mientras se guarda o se busca, la acción en curso queda deshabilitada
+    (Guardar) y el formulario o la región de resultados exponen `aria-busy`;
+    “Preparando tu planilla…” y “Cargando…” se muestran como estados visibles y
+    anunciados; la identificación en curso no mueve el foco y el resultado
+    (cancelado, sin correo o error) se anuncia con los mensajes existentes de
+    RF-18/RF-19.
+  - Hecho cuando: E2E de estados con respuesta demorada verifica `aria-busy`, la
+    acción deshabilitada y el anuncio; los checks de cierre quedan en verde.
+  - ✔ 2026-11-01: **167 unitarios + 39 E2E + lint** en verde. Nuevo
+    `e2e/estados.spec.js` (4): preparación de planilla, búsqueda, cancelación y
+    error de Google con `aria-busy`, Guardar deshabilitado y avisos en
+    `role="status"`.
+
 ## Trazabilidad RF/RNF → tareas
 
 | Requisito | Tarea(s) |
@@ -334,7 +362,7 @@
 | RF-8 | T10, T11 |
 | RF-9 | T2, T9 |
 | RF-10 | T11 |
-| RF-11 | T4, T11 |
+| RF-11 | T4, T11, T26 |
 | RF-12 | T2, T9 |
 | RF-13 | T2, T9 |
 | RF-14 | T4, T5, T9 |
@@ -347,6 +375,6 @@
 | RNF-2 | T8, T10, T19 |
 | RNF-3 | T8, T12 |
 | RNF-4 | T17, T18, T20 |
-| RNF-5 | T14, T18, T25 |
+| RNF-5 | T14, T18, T25, T26, T27 |
 | RNF-6 | T13, T25 |
 | RNF-7 | T9 (solo campos del vino), T18 |

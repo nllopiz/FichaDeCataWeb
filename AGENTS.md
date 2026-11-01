@@ -20,23 +20,25 @@
   puro, **sin backend**; Google Sheets API v4 como almacén (una fila por ficha, campos
   múltiples con ";"); Google Identity Services (OAuth, token solo en memoria) al guardar;
   hosting estático (GitHub Pages / Netlify / Vercel); Vitest + Playwright + ESLint/Prettier.
-- Estado y comandos (T1–T25 completas; los tres checks en verde):
+- Estado y comandos (T1–T27 completas; los tres checks en verde):
   - `npm run dev` — servidor estático de desarrollo en http://localhost:4173.
-  - `npm test` — 156 unitarios con Vitest (validaciones, catálogos, serialización,
-    borrador, auth, Sheets, planilla, búsqueda y documentación).
-  - `npm run test:e2e` — 32 E2E con Playwright; GIS y Sheets simulados (route stub),
+  - `npm test` — 167 unitarios con Vitest (validaciones, errores inline, catálogos,
+    serialización, borrador, auth, Sheets, planilla, búsqueda y documentación).
+  - `npm run test:e2e` — 39 E2E con Playwright; GIS y Sheets simulados (route stub),
     nunca una planilla real.
   - `npm run lint` — ESLint + Prettier.
   - Check de cierre de tarea: `npm test` + `npm run lint` + `npm run test:e2e` en verde,
     sin tests pendientes ni skipped.
 - UX/UI: Fase 1 (T25) implementada con la dirección “Bitácora de cata” (riel de fases,
-  tira móvil, chips, composición y aviso global de guardado). No se alteraron RF/RNF ni
-  mensajes. Fase 2 (errores inline, autenticación y estados de carga) y Fase 3 (pulido de
-  búsqueda) quedan pendientes de aprobación; “Nueva ficha” aún no pide confirmación.
-- Entrega: los commits de T23/T24/T25 ya están en `origin/main` (`9c5ed67`); pendientes
-  la publicación y la prueba de guardado real con la planilla del dueño; pasos en
-  `docs/checklist-entrega.md`. `js/config.js` ya tiene el Client ID público (T23). No se
-  agregan requisitos fuera de la spec sin aprobación.
+  tira móvil, chips, composición y aviso global de guardado). Fase 2 (T26/T27:
+  errores inline con foco en el primero, `aria-busy` y estados de carga/autenticación
+  anunciados) también implementada, con la enmienda aprobada de RF-11/RNF-5. Fase 3
+  (pulido de búsqueda) queda pendiente de aprobación; “Nueva ficha” aún no pide
+  confirmación.
+- Entrega: `origin/main` en `98238cf` (T23/T24/T25 y docs); T26/T27 quedan en un
+  commit local pendiente de push. Pendientes la publicación y la prueba de guardado real
+  con la planilla del dueño; pasos en `docs/checklist-entrega.md`. `js/config.js` ya tiene
+  el Client ID público (T23). No se agregan requisitos fuera de la spec sin aprobación.
 - Roles y autenticación, y categorías de datos (ver skill datos-sensibles): un único rol
   **Propietario** (el usuario del curso), identificado con su cuenta de Google **al
   guardar** (RF-17/18/19); sin identificar se carga pero no se registra. Datos manejados:

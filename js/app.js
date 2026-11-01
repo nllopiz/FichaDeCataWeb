@@ -10,6 +10,12 @@ import {
 } from "./auth.js";
 import { filtrarFichas, mensajeSinResultados, conRetraso } from "./busqueda.js";
 import { mostrarVista, renderResultados } from "./ui.js";
+import {
+  marcarErrores,
+  limpiarErrores,
+  limpiarErrorDeCampo,
+  enfocarPrimerError,
+} from "./errores.js";
 import { configurarFases } from "./fases.js";
 import {
   guardarBorrador,
@@ -54,6 +60,14 @@ if (form) {
     guardarBorrador(CLAVE_NUEVA, leerFicha(form));
   });
 
+  // RF-11: al corregir un campo se limpia solo su error inline.
+  form.addEventListener("input", (evento) =>
+    limpiarErrorDeCampo(form, evento.target),
+  );
+  form.addEventListener("change", (evento) =>
+    limpiarErrorDeCampo(form, evento.target),
+  );
+
   function asegurarIdentificacion() {
     try {
       // RF-18: el token se pide solo con acción del usuario (guardar o buscar),
@@ -73,6 +87,7 @@ if (form) {
     idEnEdicion = null;
     fechaCreacionPrevia = null;
     cargarFicha(form, {});
+    limpiarErrores(form);
     borrarBorrador(CLAVE_NUEVA); // grill-me p. 1: "Nueva ficha" borra el borrador
     tituloCarga.textContent = "Nueva ficha";
     estadoGuardado.textContent = "";
@@ -83,6 +98,7 @@ if (form) {
     idEnEdicion = ficha.id;
     fechaCreacionPrevia = ficha.fecha_creacion || null;
     cargarFicha(form, ficha);
+    limpiarErrores(form);
     tituloCarga.textContent = "Editar ficha";
     estadoGuardado.textContent = "";
     mostrarVista("carga");
@@ -92,6 +108,8 @@ if (form) {
     evento.preventDefault();
     // RF-5: además del flag interno, el botón queda inerte durante el guardado.
     botonGuardar.disabled = true;
+    // RNF-5/CA-11: el formulario expone que hay una operación en curso.
+    form.setAttribute("aria-busy", "true");
     estadoGuardado.textContent = "";
     try {
       asegurarIdentificacion();
@@ -111,7 +129,14 @@ if (form) {
         batchUpdate: sheets.batchUpdate,
       });
       estadoGuardado.textContent = mensajeDe(resultado);
+      if (resultado.estado === "invalida") {
+        // RF-11: resumen junto a la acción, marca por campo y foco en el primero.
+        marcarErrores(form, resultado);
+        enfocarPrimerError(form);
+        return;
+      }
       if (resultado.estado === "ok") {
+        limpiarErrores(form);
         idEnEdicion = null;
         fechaCreacionPrevia = null;
         sheets.invalidarCache();
@@ -124,6 +149,7 @@ if (form) {
         await buscar();
       }
     } finally {
+      form.removeAttribute("aria-busy");
       botonGuardar.disabled = false;
     }
   });
@@ -140,6 +166,7 @@ if (form) {
     if (!sheets.hayCache()) {
       // CL-7: ver las fichas guardadas exige identificarse; sin token no se
       // muestra contenido guardado.
+      contenedorResultados.setAttribute("aria-busy", "true");
       estadoBusqueda.textContent = "Cargando…";
       try {
         asegurarIdentificacion();
@@ -155,6 +182,8 @@ if (form) {
       } catch (error) {
         estadoBusqueda.textContent = error.message;
         return;
+      } finally {
+        contenedorResultados.removeAttribute("aria-busy");
       }
     }
     const encontradas = filtrarFichas(sheets.fichas() ?? [], termino);
