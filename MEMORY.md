@@ -24,6 +24,7 @@ Proyecto: FichaDeCataWeb (ficha de cata web, MVP en specs/001-mvp)
 - 2026-10-31 · Entrega · T23 (Client ID real) · Solicitante ("si"): Client ID público configurado en `js/config.js` con orígenes `http://localhost:4173` y `https://nllopiz.github.io`; test de seguridad ajustado (Client ID público ≠ secreto); falta el push y la prueba de guardado real.
 - 2026-10-31 · Skills · Solicitante (eligió "Solo frontend-design"): instalada `frontend-design` (anthropics/skills, Apache 2.0); revisada (solo `SKILL.md` + `LICENSE.txt`, sin scripts) y registrada en AGENTS.md y docs/skills-necesarias.md.
 - 2026-11-01 · UX/UI · T25 (Fase 1: identidad y estructura) · Solicitante ("ok" tras la revisión del mockup "Bitácora de cata"): implementados barra superior, riel vertical y tira móvil con scroll spy, chips, composición con obligatorio y barra, barra de guardado, `#estado-guardado` global visible en búsqueda, skip link y tarjetas de resultados. Sin cambio de RF/RNF ni de mensajes; 156 unitarios + 32 E2E + lint en verde. Pendientes: Fase 2 (errores inline, autenticación y estados de carga) y Fase 3 (pulido de búsqueda), más la confirmación de "Nueva ficha".
+- 2026-11-01 · Entrega · Push de T23/T24/T25 · Solicitante ("listo el push"): `origin/main` y `HEAD` en `9c5ed67`; publicados T23 (Client ID), T24 (skill frontend-design) y T25 (Fase 1 UX/UI). Pendientes: publicación, prueba de guardado real y Fases 2–3.
 
 ## Decisiones
 (resumen; el detalle está en docs/decisiones-tecnicas.md)

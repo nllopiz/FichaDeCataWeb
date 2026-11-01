@@ -33,9 +33,10 @@
   tira móvil, chips, composición y aviso global de guardado). No se alteraron RF/RNF ni
   mensajes. Fase 2 (errores inline, autenticación y estados de carga) y Fase 3 (pulido de
   búsqueda) quedan pendientes de aprobación; “Nueva ficha” aún no pide confirmación.
-- Entrega: pendientes el push de T23/T24/T25, la publicación y la prueba de guardado real
-  con la planilla del dueño; pasos en `docs/checklist-entrega.md`. `js/config.js` ya tiene
-  el Client ID público (T23). No se agregan requisitos fuera de la spec sin aprobación.
+- Entrega: los commits de T23/T24/T25 ya están en `origin/main` (`9c5ed67`); pendientes
+  la publicación y la prueba de guardado real con la planilla del dueño; pasos en
+  `docs/checklist-entrega.md`. `js/config.js` ya tiene el Client ID público (T23). No se
+  agregan requisitos fuera de la spec sin aprobación.
 - Roles y autenticación, y categorías de datos (ver skill datos-sensibles): un único rol
   **Propietario** (el usuario del curso), identificado con su cuenta de Google **al
   guardar** (RF-17/18/19); sin identificar se carga pero no se registra. Datos manejados:

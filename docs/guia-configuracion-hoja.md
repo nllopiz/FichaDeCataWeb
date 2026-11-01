@@ -35,17 +35,16 @@ id, bodega, linea, pais, provincia, zona, tipo, tono_matiz, intensidad_color, vi
    terceros (RNF-1).
 3. Si un día detectás que otra cuenta tiene acceso, sacala de inmediato.
 
-## 3. Configurar la app (`js/config.js`)
+## 3. La configuración de la app (`js/config.js`)
 
-Abrí `js/config.js` y reemplazá el único placeholder:
+Este repositorio **ya trae configurado el Client ID público** en `js/config.js`
+(propiedad `clientIdGoogle`): no hace falta pegar nada para usar la app tal como
+está.
 
-| Placeholder            | Qué va                 | Cómo se consigue     |
-| ---------------------- | ---------------------- | -------------------- |
-| `REEMPLAZAR_CLIENT_ID` | El Client ID de Google | Se crea en el paso 4 |
-
-Es un valor **público por diseño**: la app no tiene secretos ni archivos `.env`. La
-protección real es que la planilla esté compartida solo con vos y que Google pida
-identificarse al guardar.
+Solo si armás tu propia copia con **otro** proyecto de Google Cloud, reemplazá ese
+valor por el Client ID que crees en el paso 4. Es un valor **público por diseño**:
+la app no tiene secretos ni archivos `.env`. La protección real es que la planilla
+esté compartida solo con vos y que Google pida identificarse al guardar.
 
 ## 4. Google Cloud: habilitar las APIs y crear el Client ID
 
@@ -63,8 +62,8 @@ identificarse al guardar.
    - **Orígenes JavaScript autorizados**: agregá los que uses:
      - `http://localhost:4173` (desarrollo local),
      - `https://TU-USUARIO.github.io` (cuando publiques en GitHub Pages).
-6. Copiá el Client ID generado y pegalo en `js/config.js`
-   (`REEMPLAZAR_CLIENT_ID`).
+6. Copiá el Client ID generado. Si usás tu propio proyecto, pegalo en `js/config.js`
+   (propiedad `clientIdGoogle`) en lugar del Client ID incluido.
 
 No hace falta configurar la **URL de redirección**: la app usa el popup de Google
 y no tiene backend.

@@ -13,13 +13,13 @@
 - [ ] `js/config.js` contiene solo el Client ID público; no hay `client_secret`,
       claves ni `.env`.
 
-## 1. Client ID real (una sola vez)
+## 1. Client ID real (ya configurado)
 
-- [ ] Crear el proyecto en Google Cloud y habilitar Sheets API, Drive API e Identity
-      Services (`guia-configuracion-hoja.md`, paso 4).
-- [ ] Crear un ID de cliente OAuth de tipo **Aplicación web**.
-- [ ] Autorizar los orígenes `http://localhost:4173` y `https://TU-USUARIO.github.io`.
-- [ ] Pegar el Client ID en `js/config.js`. Es un valor público por diseño: no es un
+- [x] Proyecto en Google Cloud con Sheets API, Drive API e Identity Services
+      (`guia-configuracion-hoja.md`, paso 4).
+- [x] ID de cliente OAuth de tipo **Aplicación web**.
+- [x] Orígenes autorizados: `http://localhost:4173` y el de GitHub Pages del dueño.
+- [x] Client ID público en `js/config.js` (propiedad `clientIdGoogle`). No es un
       secreto y no se guarda en `.env`.
 
 ## 2. Prueba de guardado real (la hace el dueño)
@@ -39,9 +39,9 @@
 
 ## 3. Publicación en GitHub Pages
 
-- [ ] El dueño sube `main` a GitHub (`git push` lo hace él; el agente no publica).
+- [x] `main` ya está en GitHub (push del 2026-11-01; el agente no despliega).
 - [ ] Settings → Pages → Deploy from a branch → `main` / root.
-- [ ] Agregar la URL publicada en los orígenes autorizados de Google Cloud.
+- [x] El origen de GitHub Pages ya está autorizado en Google Cloud.
 - [ ] Repetir cargar → guardar → buscar → editar desde la URL publicada.
 - [ ] Recargar: la app vuelve a pedir identificación (el token no se persiste).
 

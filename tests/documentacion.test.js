@@ -22,6 +22,18 @@ describe("T17: guías del Solicitante", () => {
     expect(hoja).not.toMatch(/REEMPLAZAR_CORREO_DUENO/);
   });
 
+  it("la guía ya no pide reemplazar un placeholder de Client ID (T23)", () => {
+    const hoja = leer("hoja");
+    expect(hoja).not.toMatch(/REEMPLAZAR_CLIENT_ID/);
+    expect(hoja).toMatch(/clientIdGoogle/);
+  });
+
+  it("el checklist refleja el Client ID ya configurado", () => {
+    const checklist = leer("checklist");
+    expect(checklist).toMatch(/clientIdGoogle/);
+    expect(checklist).not.toMatch(/Pegar el Client ID/);
+  });
+
   it("las guías y el checklist de entrega existen", () => {
     for (const ruta of Object.values(RUTAS)) {
       expect(existsSync(ruta), `falta ${ruta}`).toBe(true);
