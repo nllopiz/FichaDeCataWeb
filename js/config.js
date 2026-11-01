@@ -5,5 +5,5 @@
 // docs/guia-configuracion-hoja.md—.
 export const CONFIG = {
   clientIdGoogle:
-    "33189607902-5a6d506hi66vd1lh23iiq1lonu9su91c.apps.googleusercontent.com",
+    "433670611423-qmv4boc94fjqbhv51gc4a88h0uiu8k9q.apps.googleusercontent.com",
 };
